@@ -1,5 +1,4 @@
-﻿using api_restaurante_hamburguesas.Models.Orden;
-using api_restaurante_hamburguesas.Models.Productos;
+﻿using api_restaurante_hamburguesas.Models.Productos;
 using api_restaurante_hamburguesas.Models.Productos.Catalogos;
 using API_restauranteHamburguesas.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -213,6 +212,7 @@ namespace api_restaurante_hamburguesas.Controllers
                 Comida comida = new Comida
                 {
                     Nombre = nombre,
+                    EstadoComidaId = 1,
                     Descripcion = descripcion,
                     Precio = precio,
                     CategoriaId_Comida = idCategoria
@@ -238,9 +238,9 @@ namespace api_restaurante_hamburguesas.Controllers
                 Combo combo = new Combo
                 {
                     Nombre = nombre,
+                    EstadoComboId = 1,
                     Descripcion = descripcion,
                     Descuento = descuento,
-                    Disponibilidad = true,
                     CategoriaId_Combo = idCategoria
                 };
                 await _context.Combos.AddAsync(combo);
@@ -361,7 +361,7 @@ namespace api_restaurante_hamburguesas.Controllers
             }
         }
 
-        // PUT: api/producto
+        // PUT: api/Producto
         [HttpPut("ModificarCategoriaComida/{idCategoriaComida},{nombre}")]
         public async Task<ActionResult>
             ModificarCategoriaComida(int idCategoriaComida, string nombre)
@@ -381,7 +381,7 @@ namespace api_restaurante_hamburguesas.Controllers
             }
         }
 
-        // PUT: api/producto
+        // PUT: api/Producto
         [HttpPut("ModificarCategoriaCombo/{idCategoriaCombo},{nombre}")]
         public async Task<ActionResult>
             ModificarCategoriaCombo(int idCategoriaCombo, string nombre)
@@ -394,6 +394,46 @@ namespace api_restaurante_hamburguesas.Controllers
                 categoriaCombo.Nombre = nombre;
                 await _context.SaveChangesAsync();
                 return Ok("Categoria combo modificado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // PUT: api/Producto
+        [HttpPut("ModificarEstadoComida/{idComida},{idEstado}")]
+        public async Task<ActionResult>
+            ModificarEstadoComida(int idComida, int idEstado)
+        {
+            try
+            {
+                // Buscar Comida
+                Comida? comida = await _context.Comidas.FindAsync(idComida);
+                if (comida == null) { throw new Exception("Comida no encontrada"); }
+                comida.EstadoComidaId = idEstado;
+                await _context.SaveChangesAsync();
+                return Ok("Estado de la comida modificado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // PUT: api/Producto
+        [HttpPut("ModificarEstadoCombo/{idCombo},{idEstado}")]
+        public async Task<ActionResult>
+            ModificarEstadoCombo(int idCombo, int idEstado)
+        {
+            try
+            {
+                // Buscar Combo
+                Combo? combo = await _context.Combos.FindAsync(idCombo);
+                if (combo == null) { throw new Exception("Combo no encontrada"); }
+                combo.EstadoComboId = idEstado;
+                await _context.SaveChangesAsync();
+                return Ok("Estado del combo modificado correctamente");
             }
             catch (Exception ex)
             {
@@ -476,10 +516,6 @@ namespace api_restaurante_hamburguesas.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
-
 
     }
 }

@@ -17,10 +17,10 @@ namespace api_restaurante_hamburguesas.Controllers
             _context = context;
         }
         
-        // GET: api/Carrito/5
-        [HttpGet("GetProducto/{idProducto}")]
+        // GET: api/Carrito
+        [HttpGet("ObtenerProducto/{idProducto}")]
         public async Task<ActionResult<ProductoCarrito>> 
-            GetProducto(int idProducto)
+            ObtenerProducto(int idProducto)
         {
             try { return Ok(await BuscarProducto<ProductoCarrito>(idProducto)); }
             catch (Exception ex) 
@@ -29,24 +29,61 @@ namespace api_restaurante_hamburguesas.Controllers
             }
         }
 
-        // GET: api/Carrito/5
-        [HttpGet("GetCombos/{idOrden}")]
-        public async Task<ActionResult<Dictionary<int, ComidaCarrito[]>>> 
-            GetCombos(int idOrden)
+        // GET: api/Carrito
+        [HttpGet("ObtenerComidas/{idOrden}")]
+        public async Task<ActionResult<ComidaCarrito[]>>
+            ObtenerComidas(int idOrden)
         {
-            try { return Ok(await BuscarCombos(idOrden)); }
+            try
+            {
+                ProductoCarrito[] comidas = await _context.Carrito
+                    .Where(b => b.OrdenId == idOrden)
+                    .Where(b => b is ComidaCarrito)
+                    .Cast<ComidaCarrito>()
+                    .Where(b => b.ComboCarritoId == null)
+                    .ToArrayAsync();
+                return Ok(comidas);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-        // GET: api/Carrito/5
-        [HttpGet("GetComidas/{idOrden}")]
-        public async Task<ActionResult<ComidaCarrito[]>>
-            GetComidas(int idOrden)
+        // GET: api/Carrito
+        [HttpGet("ObtenerCombos/{idOrden}")]
+        public async Task<ActionResult<ComboCarrito[]>>
+            ObtenerCombos(int idOrden)
         {
-            try { return Ok(await BuscarComidasByOrden(idOrden)); }
+            try 
+            {
+                ProductoCarrito[] combos = await _context.Carrito
+                    .Where(b => b.OrdenId == idOrden)
+                    .Where(b => b is ComboCarrito)
+                    .Cast<ComboCarrito>()
+                    .ToArrayAsync();
+                return Ok(combos); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Carrito
+        [HttpGet("ObtenerComidasCombo/{idCombo}")]
+        public async Task<ActionResult<ComboCarrito[]>>
+            ObtenerComidasCombo(int idCombo)
+        {
+            try
+            {
+                ProductoCarrito[] comidas = await _context.Carrito
+                    .Where(b => b is ComidaCarrito)
+                    .Cast<ComidaCarrito>()
+                    .Where(b => b.ComboCarritoId == idCombo )
+                    .ToArrayAsync();
+                return Ok(comidas);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -187,6 +224,7 @@ namespace api_restaurante_hamburguesas.Controllers
                     .Where(b => b.IdCombo == idCombo)
                     .Where(b => b.IdComida == idComida)
                     .FirstOrDefaultAsync();
+                if (comboComida == null) throw new Exception("No hay relación entre el combo con las comidas dadas");
                 comidas.Add(new ComidaCarrito()
                 {
                     ComboCarrito = nuevoCombo,
@@ -262,7 +300,7 @@ namespace api_restaurante_hamburguesas.Controllers
                 .Cast<ComboCarrito>()
                 .ToArrayAsync();
 
-            if (combos.Length == 0) throw new Exception($"No hay combos asociados con la orden con ID: {idOrden}");
+            if (combos.Length == 0) throw new Exception($"No hay comidas asociados con la orden con ID: {idOrden}");
 
             for (int i = 0; i < combos.Length; i++)
             {

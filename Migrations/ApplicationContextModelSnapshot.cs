@@ -22,6 +22,38 @@ namespace api_restaurante_hamburguesas.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Estado", b =>
+                {
+                    b.Property<int>("EstadoUsuarioId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_estado")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoUsuarioId"));
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("varchar(13)")
+                        .HasColumnName("nombre_estado")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("EstadoUsuarioId");
+
+                    b.ToTable("Estados");
+
+                    b.HasData(
+                        new
+                        {
+                            EstadoUsuarioId = 1,
+                            Nombre = "Habililtado"
+                        },
+                        new
+                        {
+                            EstadoUsuarioId = 2,
+                            Nombre = "Deshabilitado"
+                        });
+                });
+
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.Orden", b =>
                 {
                     b.Property<int>("OrdenId")
@@ -50,13 +82,13 @@ namespace api_restaurante_hamburguesas.Migrations
                         {
                             OrdenId = 1,
                             ClienteId_Orden = 1,
-                            Fecha = new DateTime(2023, 12, 4, 14, 18, 12, 455, DateTimeKind.Local).AddTicks(4751)
+                            Fecha = new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4188)
                         },
                         new
                         {
                             OrdenId = 2,
                             ClienteId_Orden = 2,
-                            Fecha = new DateTime(2023, 12, 4, 14, 18, 12, 455, DateTimeKind.Local).AddTicks(4771)
+                            Fecha = new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4227)
                         });
                 });
 
@@ -90,38 +122,6 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("ProductoCarrito");
 
                     b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.EstadoUsuario", b =>
-                {
-                    b.Property<int>("EstadoUsuarioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_estado_usuario")
-                        .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoUsuarioId"));
-
-                    b.Property<string>("Estado")
-                        .HasColumnType("varchar(13)")
-                        .HasColumnName("estado_usuario")
-                        .HasColumnOrder(2);
-
-                    b.HasKey("EstadoUsuarioId");
-
-                    b.ToTable("EstadosUsuario");
-
-                    b.HasData(
-                        new
-                        {
-                            EstadoUsuarioId = 1,
-                            Estado = "Habililtado"
-                        },
-                        new
-                        {
-                            EstadoUsuarioId = 2,
-                            Estado = "Deshabilitado"
-                        });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.GeneroCliente", b =>
@@ -321,11 +321,11 @@ namespace api_restaurante_hamburguesas.Migrations
                         {
                             UsuarioId = 1,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8319),
-                            FechaCreacion = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8306),
+                            FechaAcceso = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7506),
+                            FechaCreacion = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7492),
                             NombreUsuario = "admin",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEClKLe/+vDXuoN8zVvCd4ObSeLFr774iR0M0ybgGWBOJ8VlS0BmmA8JAJ489jd0gPA==",
-                            SaltPassword = "FA72F15B0A4E6C347571592B5732FE3C63ADB1A3700041C89300E151F7430D5077CC9F2E263B0F053964F04DEB076167E4A81DEBD8A28636C07B24282214E611",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAELNPoSIDhuaw8WZMK2R1VtjDupswGSDnvYNsygcN0rlVnG4NvUHLQY8gxeXokFyOUg==",
+                            SaltPassword = "170965456C39FC5D25C3C8E5E93E2F3909812BEC7B2BF2BE5044DCED6486B6523D971B1119FF8DBD70693223F9EE01B286D8917B76E0418FBAD2FB8A91DA2AFD",
                             TipoUsuarioId = 1
                         },
                         new
@@ -333,11 +333,11 @@ namespace api_restaurante_hamburguesas.Migrations
                             UsuarioId = 2,
                             ClienteId = 1,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8328),
-                            FechaCreacion = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8327),
+                            FechaAcceso = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514),
+                            FechaCreacion = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514),
                             NombreUsuario = "chris2003",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEJPwcopwO7d7QAyLm09Y77Ovc6C0ZnIJypVvkYG6G9VcoQXEXcu0NSwMIzZEZC6g+g==",
-                            SaltPassword = "FDE990467C8767F16DF5EB4594523D0F583A6B8AB2D5330BAF737AE0DBBE77C94829351CE7531092734AED15E458DCBABACFC70B5A68876C8DCF10F9FA6CA86B",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAEH56EzP7y8NgIT+LUJSr3y93z98iSCuHmA0FXVXjuYnE83wex2cs4phbnJjKcOjcsw==",
+                            SaltPassword = "6BCB48B6F17F890FE18E2E542A5A883615EBA70BB83A402766A99E0DF5B1B215700D16C3B2691081FADF50D9D0C63FCDCDC8B233AD8212A40BA5C39E03B18483",
                             TipoUsuarioId = 2
                         },
                         new
@@ -345,11 +345,11 @@ namespace api_restaurante_hamburguesas.Migrations
                             UsuarioId = 3,
                             ClienteId = 2,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8424),
-                            FechaCreacion = new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8423),
+                            FechaAcceso = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7519),
+                            FechaCreacion = new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7518),
                             NombreUsuario = "xavier2007",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEJnp455+lv5k6doHi6N4xgigbw5gMCpYn/RzuNL+fVOl93dfm9TCzFEjc554UorqAw==",
-                            SaltPassword = "802C8284FE52BD75DA5DFB740D9E9323511A06186FB439CB1B51836BFAE8C46368BED59A026761C9559D0DC6338244458F6A04D4F944CDF094EDD7F3993BCCCB",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAEH0cYlqM04fVp+vv6mOuVxIRx7BZSYL6YaOgbPjVijwA16iYOq0yqYYGqphe9u7kYg==",
+                            SaltPassword = "10C7305832E3D6955B0B6E1B0FA2448EF6389024452B3602848F0B067D0BF83ADC9C80AF8AFE15580F0964594CC81D40F52B36591E4629FC64B79AFECAB724D2",
                             TipoUsuarioId = 2
                         });
                 });
@@ -440,7 +440,7 @@ namespace api_restaurante_hamburguesas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
-                    b.Property<int>("CategoriaId_Combo")
+                    b.Property<int?>("CategoriaId_Combo")
                         .HasColumnType("int")
                         .HasColumnName("id_categoria_combo");
 
@@ -453,9 +453,9 @@ namespace api_restaurante_hamburguesas.Migrations
                         .HasColumnType("decimal(1,1)")
                         .HasColumnName("descuento_combo");
 
-                    b.Property<bool>("Disponibilidad")
-                        .HasColumnType("bit")
-                        .HasColumnName("disponibilidad_combo");
+                    b.Property<int>("EstadoComboId")
+                        .HasColumnType("int")
+                        .HasColumnName("estado_combo");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -466,6 +466,8 @@ namespace api_restaurante_hamburguesas.Migrations
 
                     b.HasIndex("CategoriaId_Combo");
 
+                    b.HasIndex("EstadoComboId");
+
                     b.ToTable("Combos");
 
                     b.HasData(
@@ -475,7 +477,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             CategoriaId_Combo = 2,
                             Descripcion = "El combo clásico incluye una hamburguesa con queso,\r\nacompañada por papas fritas y una bebida refrescante.",
                             Descuento = 0.3m,
-                            Disponibilidad = true,
+                            EstadoComboId = 1,
                             Nombre = "ComboCarrito Clásico"
                         },
                         new
@@ -484,7 +486,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             CategoriaId_Combo = 1,
                             Descripcion = "El Combo \"Para Todos\" ofrece hamburguesas individuales\r\nvariadas con nachos cubiertos de sabores intensos,\r\npapas fritas especiales y una jarra grande de bebidas refrescantes.\r\n¡Ideal para satisfacer los gustos de todos en el grupo!",
                             Descuento = 0.2m,
-                            Disponibilidad = true,
+                            EstadoComboId = 1,
                             Nombre = "ComboCarrito Para Todos"
                         },
                         new
@@ -493,7 +495,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             CategoriaId_Combo = 3,
                             Descripcion = "El Combo \"Mini Burguer\" ofrece una hamburguesa pequeña\r\ncon queso y vegetales, acompañada de papas fritas y\r\nuna bebida refrescante, perfecto para los más pequeños.",
                             Descuento = 0.1m,
-                            Disponibilidad = true,
+                            EstadoComboId = 1,
                             Nombre = "ComboCarrito Mini Burguer"
                         });
                 });
@@ -658,7 +660,7 @@ namespace api_restaurante_hamburguesas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
 
-                    b.Property<int>("CategoriaId_Comida")
+                    b.Property<int?>("CategoriaId_Comida")
                         .HasColumnType("int")
                         .HasColumnName("id_categoria_comida");
 
@@ -666,6 +668,10 @@ namespace api_restaurante_hamburguesas.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("descripcion_producto");
+
+                    b.Property<int>("EstadoComidaId")
+                        .HasColumnType("int")
+                        .HasColumnName("estado_comida");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -680,6 +686,8 @@ namespace api_restaurante_hamburguesas.Migrations
 
                     b.HasIndex("CategoriaId_Comida");
 
+                    b.HasIndex("EstadoComidaId");
+
                     b.ToTable("Comidas");
 
                     b.HasData(
@@ -688,6 +696,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 1,
                             CategoriaId_Comida = 1,
                             Descripcion = "Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.",
+                            EstadoComidaId = 1,
                             Nombre = "Hamburguesa Clásica",
                             Precio = 5.5m
                         },
@@ -696,6 +705,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 2,
                             CategoriaId_Comida = 1,
                             Descripcion = "Doble carne con queso, tocino, lechuga, tomate y aderezos.",
+                            EstadoComidaId = 1,
                             Nombre = "Hamburguesa Doble",
                             Precio = 7.5m
                         },
@@ -704,6 +714,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 3,
                             CategoriaId_Comida = 1,
                             Descripcion = "Una hamburguesa más pequeña con queso y vegetales básicos.",
+                            EstadoComidaId = 1,
                             Nombre = "Mini Hamburguesa Sencilla",
                             Precio = 3.5m
                         },
@@ -712,6 +723,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 4,
                             CategoriaId_Comida = 3,
                             Descripcion = "Papas fritas grandes",
+                            EstadoComidaId = 1,
                             Nombre = "Papas Fritas Grandes",
                             Precio = 2.5m
                         },
@@ -720,6 +732,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 5,
                             CategoriaId_Comida = 3,
                             Descripcion = "Papas fritas pequeñas",
+                            EstadoComidaId = 1,
                             Nombre = "Papas Fritas Pequeñas",
                             Precio = 1.5m
                         },
@@ -728,6 +741,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 6,
                             CategoriaId_Comida = 2,
                             Descripcion = "Coca Cola personal de 500 ml",
+                            EstadoComidaId = 1,
                             Nombre = "Coca Cola (500ml)",
                             Precio = 2.5m
                         },
@@ -736,6 +750,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 7,
                             CategoriaId_Comida = 4,
                             Descripcion = "Helado de vainilla",
+                            EstadoComidaId = 1,
                             Nombre = "Helado de Vainilla",
                             Precio = 1.5m
                         },
@@ -744,6 +759,7 @@ namespace api_restaurante_hamburguesas.Migrations
                             ProductoId = 8,
                             CategoriaId_Comida = 4,
                             Descripcion = "Helado de chocalate",
+                            EstadoComidaId = 1,
                             Nombre = "Helado de Chocolate",
                             Precio = 1.5m
                         });
@@ -979,7 +995,7 @@ namespace api_restaurante_hamburguesas.Migrations
                         .WithOne("Usuario")
                         .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "ClienteId");
 
-                    b.HasOne("api_restaurante_hamburguesas.Models.Persona.Catalogos.EstadoUsuario", "EstadoUsuario")
+                    b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoUsuario")
                         .WithOne("Usuario")
                         .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "EstadoUsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1003,10 +1019,17 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaCombo", "CategoriaCombo")
                         .WithOne("Combo")
                         .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "CategoriaId_Combo")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoCombo")
+                        .WithOne("Combo")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "EstadoComboId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CategoriaCombo");
+
+                    b.Navigation("EstadoCombo");
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.ComboComida", b =>
@@ -1014,7 +1037,7 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Combo", "Combo")
                         .WithOne("ComboComida")
                         .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.ComboComida", "IdCombo")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Comida", "Comida")
@@ -1033,10 +1056,17 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaComida", "CategoriaComida")
                         .WithOne("Comida")
                         .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "CategoriaId_Comida")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoComida")
+                        .WithOne("Comida")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "EstadoComidaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CategoriaComida");
+
+                    b.Navigation("EstadoComida");
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", b =>
@@ -1067,14 +1097,18 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.Navigation("Comida");
                 });
 
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Estado", b =>
+                {
+                    b.Navigation("Combo");
+
+                    b.Navigation("Comida");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.Orden", b =>
                 {
                     b.Navigation("Carrito");
-                });
-
-            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.EstadoUsuario", b =>
-                {
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.GeneroCliente", b =>

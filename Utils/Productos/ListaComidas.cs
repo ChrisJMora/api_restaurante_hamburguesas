@@ -11,6 +11,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 1,
                 Nombre = "Hamburguesa Clásica",
+                EstadoComidaId = 1,
                 Descripcion = """
                 Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.
                 """,
@@ -22,6 +23,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 2,
                 Nombre = "Hamburguesa Doble",
+                EstadoComidaId = 1,
                 Descripcion = """
                 Doble carne con queso, tocino, lechuga, tomate y aderezos.
                 """,
@@ -33,6 +35,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 3,
                 Nombre = "Mini Hamburguesa Sencilla",
+                EstadoComidaId = 1,
                 Descripcion = """
                 Una hamburguesa más pequeña con queso y vegetales básicos.
                 """,
@@ -46,6 +49,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 4,
                 Nombre = "Papas Fritas Grandes",
+                EstadoComidaId = 1,
                 Descripcion = "Papas fritas grandes",
                 Precio = 2.5f,
                 CategoriaId_Comida = 3
@@ -55,6 +59,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 5,
                 Nombre = "Papas Fritas Pequeñas",
+                EstadoComidaId = 1,
                 Descripcion = "Papas fritas pequeñas",
                 Precio = 1.5f,
                 CategoriaId_Comida = 3
@@ -65,6 +70,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 6,
                 Nombre = "Coca Cola (500ml)",
+                EstadoComidaId = 1,
                 Descripcion = "Coca Cola personal de 500 ml",
                 Precio = 2.5f,
                 CategoriaId_Comida = 2
@@ -75,6 +81,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 7,
                 Nombre = "Helado de Vainilla",
+                EstadoComidaId = 1,
                 Descripcion = "Helado de vainilla",
                 Precio = 1.5f,
                 CategoriaId_Comida = 4
@@ -84,6 +91,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
             {
                 ProductoId = 8,
                 Nombre = "Helado de Chocolate",
+                EstadoComidaId = 1,
                 Descripcion = "Helado de chocalate",
                 Precio = 1.5f,
                 CategoriaId_Comida = 4

@@ -1,8 +1,10 @@
-﻿using api_restaurante_hamburguesas.Models.Orden;
+﻿using api_restaurante_hamburguesas.Models;
+using api_restaurante_hamburguesas.Models.Orden;
 using api_restaurante_hamburguesas.Models.Persona;
 using api_restaurante_hamburguesas.Models.Persona.Catalogos;
 using api_restaurante_hamburguesas.Models.Productos;
 using api_restaurante_hamburguesas.Models.Productos.Catalogos;
+using api_restaurante_hamburguesas.Utils;
 using api_restaurante_hamburguesas.Utils.Orden;
 using api_restaurante_hamburguesas.Utils.Persona;
 using api_restaurante_hamburguesas.Utils.Persona.Catalogos;
@@ -17,12 +19,11 @@ namespace API_restauranteHamburguesas.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<TipoUsuario> TiposUsuario { get; set; }
-        public DbSet<EstadoUsuario> EstadosUsuario { get; set; }
+        public DbSet<Estado> Estados { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<GeneroCliente> Generos { get; set; }
         public DbSet<Comida> Comidas { get; set; }
         public DbSet<Combo> Combos { get; set; }
-/*        public DbSet<Producto> Productos { get; set; }*/
         public DbSet<CategoriaComida> CategoriasComida { get; set; }
         public DbSet<CategoriaCombo> CategoriasCombo { get; set; }
         public DbSet<ComboComida> ComboComida { get; set; }
@@ -34,7 +35,27 @@ namespace API_restauranteHamburguesas.Data
         {
             // Querys
 
-                // Persona
+
+            modelBuilder.Entity<Estado>(entity =>
+            {
+                entity.Property(e => e.Nombre).HasColumnType("varchar(13)");
+                entity
+                    .HasOne(e => e.Usuario)
+                    .WithOne(e => e.EstadoUsuario)
+                    .HasForeignKey<Usuario>(e => e.EstadoUsuarioId);
+
+                entity
+                    .HasOne(e => e.Comida)
+                    .WithOne(e => e.EstadoComida)
+                    .HasForeignKey<Comida>(e => e.EstadoComidaId);
+
+                entity
+                    .HasOne(e => e.Combo)
+                    .WithOne(e => e.EstadoCombo)
+                    .HasForeignKey<Combo>(e => e.EstadoComboId);
+            });
+
+            // Persona
 
             modelBuilder.Entity<Usuario>(entity =>
             {
@@ -92,54 +113,45 @@ namespace API_restauranteHamburguesas.Data
                     .HasForeignKey<Usuario>(e => e.TipoUsuarioId);
             });
 
-            modelBuilder.Entity<EstadoUsuario>(entity =>
-            {
-                entity.Property(e => e.Estado).HasColumnType("varchar(13)");
-                entity
-                    .HasOne(e => e.Usuario)
-                    .WithOne(e => e.EstadoUsuario)
-                    .HasForeignKey<Usuario>(e => e.EstadoUsuarioId);
-            });
-
             // Producto
-
-/*            modelBuilder.Entity<Producto>(entity =>
-            {
-                entity.Property(e => e.Nombre).HasColumnType("varchar(30)");
-                entity.Property(e => e.Descripcion).HasColumnType("text");
-            });*/
 
             modelBuilder.Entity<Comida>(entity =>
             {
                 entity.Property(e => e.Nombre).HasColumnType("varchar(30)");
+                entity.HasIndex(e => e.EstadoComidaId).IsUnique(false);
                 entity.Property(e => e.Descripcion).HasColumnType("text");
                 entity.Property(e => e.Precio).HasColumnType("decimal(2,1)");
                 entity.HasIndex(e => e.CategoriaId_Comida).IsUnique(false);
                 entity
                     .HasOne(e => e.ComboComida)
                     .WithOne(e => e.Comida)
-                    .HasForeignKey<ComboComida>(e => e.IdComida);
+                    .HasForeignKey<ComboComida>(e => e.IdComida)
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity
                     .HasOne(e => e.ComidaCarrito)
                     .WithOne(e => e.Comida)
-                    .HasForeignKey<ComidaCarrito>(e => e.ComidaId);
+                    .HasForeignKey<ComidaCarrito>(e => e.ComidaId)
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Combo>(entity =>
             {
                 entity.Property(e => e.Nombre).HasColumnType("varchar(30)");
+                entity.HasIndex(e => e.EstadoComboId).IsUnique(false);
                 entity.Property(e => e.Descripcion).HasColumnType("text");
                 entity.Property(e => e.Descuento).HasColumnType("decimal(1,1)");
-                entity.Property(e => e.Disponibilidad).HasColumnType("bit");
+                entity.Property(e => e.CategoriaId_Combo).HasColumnType("int");
                 entity.HasIndex(e => e.CategoriaId_Combo).IsUnique(false);
                 entity
                     .HasOne(e => e.ComboComida)
                     .WithOne(e => e.Combo)
-                    .HasForeignKey<ComboComida>(e => e.IdCombo);
+                    .HasForeignKey<ComboComida>(e => e.IdCombo)
+                    .OnDelete(DeleteBehavior.NoAction);
                 entity
                     .HasOne(e => e.ComboCarrito)
                     .WithOne(e => e.Combo)
-                    .HasForeignKey<ComboCarrito>(e => e.ComboId);
+                    .HasForeignKey<ComboCarrito>(e => e.ComboId)
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<ComboComida>(entity =>
@@ -157,7 +169,8 @@ namespace API_restauranteHamburguesas.Data
                 entity
                     .HasOne(e => e.Comida)
                     .WithOne(e => e.CategoriaComida)
-                    .HasForeignKey<Comida>(e => e.CategoriaId_Comida);
+                    .HasForeignKey<Comida>(e => e.CategoriaId_Comida)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             modelBuilder.Entity<CategoriaCombo>(entity =>
@@ -166,7 +179,8 @@ namespace API_restauranteHamburguesas.Data
                 entity
                     .HasOne(e => e.Combo)
                     .WithOne(e => e.CategoriaCombo)
-                    .HasForeignKey<Combo>(e => e.CategoriaId_Combo);
+                    .HasForeignKey<Combo>(e => e.CategoriaId_Combo)
+                    .OnDelete(DeleteBehavior.SetNull);
             });
 
             // Orden
@@ -204,7 +218,7 @@ namespace API_restauranteHamburguesas.Data
 
             modelBuilder.Entity<TipoUsuario>().HasData(new ListaTiposUsuario().tiposUsuario);
 
-            modelBuilder.Entity<EstadoUsuario>().HasData(new ListaEstadosUsuario().estadosUsuario);
+            modelBuilder.Entity<Estado>().HasData(new ListaEstados().estados);
 
             modelBuilder.Entity<GeneroCliente>().HasData(new ListaGenerosCliente().generos);
 

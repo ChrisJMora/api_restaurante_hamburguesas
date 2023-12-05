@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using api_restaurante_hamburguesas.Models.Persona;
 using Microsoft.IdentityModel.Tokens;
 using api_restaurante_hamburguesas.Models.Persona.Catalogos;
+using api_restaurante_hamburguesas.Models;
 
 namespace api_restaurante_hamburguesas.Controllers
 {
@@ -64,6 +65,23 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Usuario
+        [HttpGet("ObtenerGenerosCliente")]
+        public async Task<ActionResult<GeneroCliente[]>>
+            ObtenerGenerosCliente()
+        {
+            try
+            {
+                GeneroCliente[] generos = await _context.Generos.ToArrayAsync();
+                if (generos.Length == 0) throw new Exception("Lista de géneros cliente vacía");
+                return Ok(generos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Usuario
         [HttpGet("ObtenerTiposUsuario")]
         public async Task<ActionResult<TipoUsuario[]>>
             ObtenerTiposUsuarios()
@@ -86,35 +104,6 @@ namespace api_restaurante_hamburguesas.Controllers
             ObtenerTipoUsuario(int idTipoUsuario)
         {
             try { return Ok(await BuscarTipoUsuario(idTipoUsuario)); }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // GET: api/Usuario
-        [HttpGet("ObtenerEstadosUsuario")]
-        public async Task<ActionResult<EstadoUsuario[]>>
-            ObtenerEstadosUsuario()
-        {
-            try
-            {
-                EstadoUsuario[] estadosUsuario = await _context.EstadosUsuario.ToArrayAsync();
-                if (estadosUsuario.Length == 0) throw new Exception("Lista de estados de usuario vacía");
-                return Ok(estadosUsuario);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // GET: api/Usuario
-        [HttpGet("ObtenerEstadoUsuario/{idEstadoUsuario}")]
-        public async Task<ActionResult<EstadoUsuario>>
-            ObtenerEstadoUsuario(int idEstadoUsuario)
-        {
-            try { return Ok(await BuscarEstadoUsuario(idEstadoUsuario)); }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -309,16 +298,6 @@ namespace api_restaurante_hamburguesas.Controllers
             if (tipoUsuario == null)
                 throw new Exception("Tipo de usuario no encontrado");
             return tipoUsuario;
-        }
-
-        private async Task<EstadoUsuario>
-            BuscarEstadoUsuario(int idEstadoUsuario)
-        {
-            // Busca si el estado del usuario se encuentra en la base de datos
-            EstadoUsuario? estadoUsuario = await _context.EstadosUsuario.FindAsync(idEstadoUsuario);
-            if (estadoUsuario == null)
-                throw new Exception("Estado de usuario no encontrado");
-            return estadoUsuario;
         }
 
         private async Task<Usuario>

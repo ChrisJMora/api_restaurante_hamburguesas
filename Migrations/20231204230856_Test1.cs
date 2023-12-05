@@ -40,16 +40,16 @@ namespace api_restaurante_hamburguesas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EstadosUsuario",
+                name: "Estados",
                 columns: table => new
                 {
-                    id_estado_usuario = table.Column<int>(type: "int", nullable: false)
+                    id_estado = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    estado_usuario = table.Column<string>(type: "varchar(13)", nullable: true)
+                    nombre_estado = table.Column<string>(type: "varchar(13)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EstadosUsuario", x => x.id_estado_usuario);
+                    table.PrimaryKey("PK_Estados", x => x.id_estado);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,8 +99,8 @@ namespace api_restaurante_hamburguesas.Migrations
                     id_producto = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     descuento_combo = table.Column<decimal>(type: "decimal(1,1)", nullable: false),
-                    disponibilidad_combo = table.Column<bool>(type: "bit", nullable: false),
-                    id_categoria_combo = table.Column<int>(type: "int", nullable: false),
+                    id_categoria_combo = table.Column<int>(type: "int", nullable: true),
+                    estado_combo = table.Column<int>(type: "int", nullable: false),
                     nombre_producto = table.Column<string>(type: "varchar(30)", nullable: false),
                     descripcion_producto = table.Column<string>(type: "text", nullable: false)
                 },
@@ -112,6 +112,12 @@ namespace api_restaurante_hamburguesas.Migrations
                         column: x => x.id_categoria_combo,
                         principalTable: "CategoriasCombo",
                         principalColumn: "id_categoria_combo",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Combos_Estados_estado_combo",
+                        column: x => x.estado_combo,
+                        principalTable: "Estados",
+                        principalColumn: "id_estado",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -122,7 +128,8 @@ namespace api_restaurante_hamburguesas.Migrations
                     id_producto = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     precio_comida = table.Column<decimal>(type: "decimal(2,1)", nullable: false),
-                    id_categoria_comida = table.Column<int>(type: "int", nullable: false),
+                    id_categoria_comida = table.Column<int>(type: "int", nullable: true),
+                    estado_comida = table.Column<int>(type: "int", nullable: false),
                     nombre_producto = table.Column<string>(type: "varchar(30)", nullable: false),
                     descripcion_producto = table.Column<string>(type: "text", nullable: false)
                 },
@@ -134,6 +141,12 @@ namespace api_restaurante_hamburguesas.Migrations
                         column: x => x.id_categoria_comida,
                         principalTable: "CategoriasComida",
                         principalColumn: "id_categoria_comida",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_Comidas_Estados_estado_comida",
+                        column: x => x.estado_comida,
+                        principalTable: "Estados",
+                        principalColumn: "id_estado",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -177,8 +190,7 @@ namespace api_restaurante_hamburguesas.Migrations
                         name: "FK_ComboComida_Combos_id_combo",
                         column: x => x.id_combo,
                         principalTable: "Combos",
-                        principalColumn: "id_producto",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id_producto");
                     table.ForeignKey(
                         name: "FK_ComboComida_Comidas_id_comida",
                         column: x => x.id_comida,
@@ -231,10 +243,10 @@ namespace api_restaurante_hamburguesas.Migrations
                         principalTable: "Clientes",
                         principalColumn: "id_cliente");
                     table.ForeignKey(
-                        name: "FK_Usuarios_EstadosUsuario_estado_usuario",
+                        name: "FK_Usuarios_Estados_estado_usuario",
                         column: x => x.estado_usuario,
-                        principalTable: "EstadosUsuario",
-                        principalColumn: "id_estado_usuario",
+                        principalTable: "Estados",
+                        principalColumn: "id_estado",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Usuarios_TiposUsuario_id_tipo_usuario",
@@ -305,8 +317,8 @@ namespace api_restaurante_hamburguesas.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "EstadosUsuario",
-                columns: new[] { "id_estado_usuario", "estado_usuario" },
+                table: "Estados",
+                columns: new[] { "id_estado", "nombre_estado" },
                 values: new object[,]
                 {
                     { 1, "Habililtado" },
@@ -342,33 +354,33 @@ namespace api_restaurante_hamburguesas.Migrations
 
             migrationBuilder.InsertData(
                 table: "Combos",
-                columns: new[] { "id_producto", "id_categoria_combo", "descripcion_producto", "descuento_combo", "disponibilidad_combo", "nombre_producto" },
+                columns: new[] { "id_producto", "id_categoria_combo", "descripcion_producto", "descuento_combo", "estado_combo", "nombre_producto" },
                 values: new object[,]
                 {
-                    { 1, 2, "El combo clásico incluye una hamburguesa con queso,\r\nacompañada por papas fritas y una bebida refrescante.", 0.3m, true, "ComboCarrito Clásico" },
-                    { 2, 1, "El Combo \"Para Todos\" ofrece hamburguesas individuales\r\nvariadas con nachos cubiertos de sabores intensos,\r\npapas fritas especiales y una jarra grande de bebidas refrescantes.\r\n¡Ideal para satisfacer los gustos de todos en el grupo!", 0.2m, true, "ComboCarrito Para Todos" },
-                    { 3, 3, "El Combo \"Mini Burguer\" ofrece una hamburguesa pequeña\r\ncon queso y vegetales, acompañada de papas fritas y\r\nuna bebida refrescante, perfecto para los más pequeños.", 0.1m, true, "ComboCarrito Mini Burguer" }
+                    { 1, 2, "El combo clásico incluye una hamburguesa con queso,\r\nacompañada por papas fritas y una bebida refrescante.", 0.3m, 1, "ComboCarrito Clásico" },
+                    { 2, 1, "El Combo \"Para Todos\" ofrece hamburguesas individuales\r\nvariadas con nachos cubiertos de sabores intensos,\r\npapas fritas especiales y una jarra grande de bebidas refrescantes.\r\n¡Ideal para satisfacer los gustos de todos en el grupo!", 0.2m, 1, "ComboCarrito Para Todos" },
+                    { 3, 3, "El Combo \"Mini Burguer\" ofrece una hamburguesa pequeña\r\ncon queso y vegetales, acompañada de papas fritas y\r\nuna bebida refrescante, perfecto para los más pequeños.", 0.1m, 1, "ComboCarrito Mini Burguer" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Comidas",
-                columns: new[] { "id_producto", "id_categoria_comida", "descripcion_producto", "nombre_producto", "precio_comida" },
+                columns: new[] { "id_producto", "id_categoria_comida", "descripcion_producto", "estado_comida", "nombre_producto", "precio_comida" },
                 values: new object[,]
                 {
-                    { 1, 1, "Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.", "Hamburguesa Clásica", 5.5m },
-                    { 2, 1, "Doble carne con queso, tocino, lechuga, tomate y aderezos.", "Hamburguesa Doble", 7.5m },
-                    { 3, 1, "Una hamburguesa más pequeña con queso y vegetales básicos.", "Mini Hamburguesa Sencilla", 3.5m },
-                    { 4, 3, "Papas fritas grandes", "Papas Fritas Grandes", 2.5m },
-                    { 5, 3, "Papas fritas pequeñas", "Papas Fritas Pequeñas", 1.5m },
-                    { 6, 2, "Coca Cola personal de 500 ml", "Coca Cola (500ml)", 2.5m },
-                    { 7, 4, "Helado de vainilla", "Helado de Vainilla", 1.5m },
-                    { 8, 4, "Helado de chocalate", "Helado de Chocolate", 1.5m }
+                    { 1, 1, "Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.", 1, "Hamburguesa Clásica", 5.5m },
+                    { 2, 1, "Doble carne con queso, tocino, lechuga, tomate y aderezos.", 1, "Hamburguesa Doble", 7.5m },
+                    { 3, 1, "Una hamburguesa más pequeña con queso y vegetales básicos.", 1, "Mini Hamburguesa Sencilla", 3.5m },
+                    { 4, 3, "Papas fritas grandes", 1, "Papas Fritas Grandes", 2.5m },
+                    { 5, 3, "Papas fritas pequeñas", 1, "Papas Fritas Pequeñas", 1.5m },
+                    { 6, 2, "Coca Cola personal de 500 ml", 1, "Coca Cola (500ml)", 2.5m },
+                    { 7, 4, "Helado de vainilla", 1, "Helado de Vainilla", 1.5m },
+                    { 8, 4, "Helado de chocalate", 1, "Helado de Chocolate", 1.5m }
                 });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "id_usuario", "id_cliente", "estado_usuario", "fecha_acceso", "fecha_creacion", "nombre_usuario", "password_usuario", "salt_password", "id_tipo_usuario" },
-                values: new object[] { 1, null, 1, new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8319), new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8306), "admin", "AQAAAAIAAYagAAAAEClKLe/+vDXuoN8zVvCd4ObSeLFr774iR0M0ybgGWBOJ8VlS0BmmA8JAJ489jd0gPA==", "FA72F15B0A4E6C347571592B5732FE3C63ADB1A3700041C89300E151F7430D5077CC9F2E263B0F053964F04DEB076167E4A81DEBD8A28636C07B24282214E611", 1 });
+                values: new object[] { 1, null, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7506), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7492), "admin", "AQAAAAIAAYagAAAAELNPoSIDhuaw8WZMK2R1VtjDupswGSDnvYNsygcN0rlVnG4NvUHLQY8gxeXokFyOUg==", "170965456C39FC5D25C3C8E5E93E2F3909812BEC7B2BF2BE5044DCED6486B6523D971B1119FF8DBD70693223F9EE01B286D8917B76E0418FBAD2FB8A91DA2AFD", 1 });
 
             migrationBuilder.InsertData(
                 table: "ComboComida",
@@ -399,8 +411,8 @@ namespace api_restaurante_hamburguesas.Migrations
                 columns: new[] { "id_orden", "cliente_id_orden", "fecha_compra_orden" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 12, 4, 14, 18, 12, 455, DateTimeKind.Local).AddTicks(4751) },
-                    { 2, 2, new DateTime(2023, 12, 4, 14, 18, 12, 455, DateTimeKind.Local).AddTicks(4771) }
+                    { 1, 1, new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4188) },
+                    { 2, 2, new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4227) }
                 });
 
             migrationBuilder.InsertData(
@@ -408,8 +420,8 @@ namespace api_restaurante_hamburguesas.Migrations
                 columns: new[] { "id_usuario", "id_cliente", "estado_usuario", "fecha_acceso", "fecha_creacion", "nombre_usuario", "password_usuario", "salt_password", "id_tipo_usuario" },
                 values: new object[,]
                 {
-                    { 2, 1, 1, new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8328), new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8327), "chris2003", "AQAAAAIAAYagAAAAEJPwcopwO7d7QAyLm09Y77Ovc6C0ZnIJypVvkYG6G9VcoQXEXcu0NSwMIzZEZC6g+g==", "FDE990467C8767F16DF5EB4594523D0F583A6B8AB2D5330BAF737AE0DBBE77C94829351CE7531092734AED15E458DCBABACFC70B5A68876C8DCF10F9FA6CA86B", 2 },
-                    { 3, 2, 1, new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8424), new DateTime(2023, 12, 4, 14, 18, 12, 253, DateTimeKind.Local).AddTicks(8423), "xavier2007", "AQAAAAIAAYagAAAAEJnp455+lv5k6doHi6N4xgigbw5gMCpYn/RzuNL+fVOl93dfm9TCzFEjc554UorqAw==", "802C8284FE52BD75DA5DFB740D9E9323511A06186FB439CB1B51836BFAE8C46368BED59A026761C9559D0DC6338244458F6A04D4F944CDF094EDD7F3993BCCCB", 2 }
+                    { 2, 1, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514), "chris2003", "AQAAAAIAAYagAAAAEH56EzP7y8NgIT+LUJSr3y93z98iSCuHmA0FXVXjuYnE83wex2cs4phbnJjKcOjcsw==", "6BCB48B6F17F890FE18E2E542A5A883615EBA70BB83A402766A99E0DF5B1B215700D16C3B2691081FADF50D9D0C63FCDCDC8B233AD8212A40BA5C39E03B18483", 2 },
+                    { 3, 2, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7519), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7518), "xavier2007", "AQAAAAIAAYagAAAAEH0cYlqM04fVp+vv6mOuVxIRx7BZSYL6YaOgbPjVijwA16iYOq0yqYYGqphe9u7kYg==", "10C7305832E3D6955B0B6E1B0FA2448EF6389024452B3602848F0B067D0BF83ADC9C80AF8AFE15580F0964594CC81D40F52B36591E4629FC64B79AFECAB724D2", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -479,9 +491,19 @@ namespace api_restaurante_hamburguesas.Migrations
                 column: "id_comida");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Combos_estado_combo",
+                table: "Combos",
+                column: "estado_combo");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Combos_id_categoria_combo",
                 table: "Combos",
                 column: "id_categoria_combo");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comidas_estado_comida",
+                table: "Comidas",
+                column: "estado_comida");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comidas_id_categoria_comida",
@@ -540,9 +562,6 @@ namespace api_restaurante_hamburguesas.Migrations
                 name: "Comidas");
 
             migrationBuilder.DropTable(
-                name: "EstadosUsuario");
-
-            migrationBuilder.DropTable(
                 name: "TiposUsuario");
 
             migrationBuilder.DropTable(
@@ -553,6 +572,9 @@ namespace api_restaurante_hamburguesas.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoriasComida");
+
+            migrationBuilder.DropTable(
+                name: "Estados");
 
             migrationBuilder.DropTable(
                 name: "Generos");

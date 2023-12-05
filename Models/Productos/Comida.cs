@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using api_restaurante_hamburguesas.Models.Productos.Catalogos;
 using api_restaurante_hamburguesas.Models.Orden;
+using System.Diagnostics.CodeAnalysis;
 
 namespace api_restaurante_hamburguesas.Models.Productos
 {
@@ -13,8 +14,7 @@ namespace api_restaurante_hamburguesas.Models.Productos
         public double? Precio { get; set; }
 
         [Column("id_categoria_comida")]
-        [Required]
-        public int CategoriaId_Comida { get; set; }
+        public int? CategoriaId_Comida { get; set; }
 
         [JsonIgnore]
         public CategoriaComida? CategoriaComida { get; set; }
@@ -24,5 +24,12 @@ namespace api_restaurante_hamburguesas.Models.Productos
 
         [JsonIgnore]
         public ComidaCarrito? ComidaCarrito { get; set; }
+
+        [Column("estado_comida")]
+        [Required]
+        public required int EstadoComidaId { get; set; }
+
+        [JsonIgnore]
+        public Estado? EstadoComida { get; set; }
     }
 }

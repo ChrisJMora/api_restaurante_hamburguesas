@@ -56,7 +56,7 @@ namespace api_restaurante_hamburguesas.Models.Persona
         public TipoUsuario? TipoUsuario { get; set; }
 
         [JsonIgnore]
-        public EstadoUsuario? EstadoUsuario { get; set; }
+        public Estado? EstadoUsuario { get; set; }
 
         public void EncriptarPassword()
         {

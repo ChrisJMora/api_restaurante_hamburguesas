@@ -16,7 +16,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                     acompañada por papas fritas y una bebida refrescante.
                     """,
                 Descuento = 0.3,
-                CategoriaId_Combo = 2
+                CategoriaIdCombo = 2
             },
             new Combo
             {
@@ -30,7 +30,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                     ¡Ideal para satisfacer los gustos de todos en el grupo!
                     """,
                 Descuento = 0.2,
-                CategoriaId_Combo = 1
+                CategoriaIdCombo = 1
             },
             new Combo
             {
@@ -43,7 +43,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                     una bebida refrescante, perfecto para los más pequeños.
                     """,
                 Descuento = 0.1,
-                CategoriaId_Combo = 3
+                CategoriaIdCombo = 3
             }
         };
     }

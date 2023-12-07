@@ -18,7 +18,7 @@ namespace api_restaurante_hamburguesas.Models.Orden
 
         [Column("cliente_id_orden")]
         [Required]
-        public int ClienteId_Orden { get; set; }
+        public int ClienteId { get; set; }
 
         [JsonIgnore]
         public Cliente? Cliente { get; set; }

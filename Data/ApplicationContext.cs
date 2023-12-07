@@ -79,6 +79,8 @@ namespace API_restauranteHamburguesas.Data
                 entity.Property(e => e.Nombre).HasColumnType("varchar(20)");
                 entity.Property(e => e.Apellido).HasColumnType("varchar(20)");
                 entity.Property(e => e.FechaNacimiento).HasColumnType("date");
+                entity.Property(e => e.TelefonoCliente).HasColumnType("varchar(12)");
+                entity.Property(e => e.MailCliente).HasColumnType("text");
                 entity
                     .ToTable(e => e.HasCheckConstraint("CK_Genero",
                     "[id_genero_cliente] = 1 OR [id_genero_cliente] = 2"));
@@ -89,24 +91,24 @@ namespace API_restauranteHamburguesas.Data
                 entity
                     .HasOne(e => e.Orden)
                     .WithOne(e => e.Cliente)
-                    .HasForeignKey<Orden>(e => e.ClienteId_Orden);
-                entity.HasIndex(e => e.GeneroId_Cliente).IsUnique(false);
+                    .HasForeignKey<Orden>(e => e.ClienteId);
+                entity.HasIndex(e => e.GeneroId).IsUnique(false);
             });
 
                     // Catalogos Persona
 
             modelBuilder.Entity<GeneroCliente>(entity =>
             {
-                entity.Property(e => e.Genero).HasColumnType("varchar(9)");
+                entity.Property(e => e.Nombre).HasColumnType("varchar(9)");
                 entity
                     .HasOne(e => e.Cliente)
                     .WithOne(e => e.Genero)
-                    .HasForeignKey<Cliente>(e => e.GeneroId_Cliente);
+                    .HasForeignKey<Cliente>(e => e.GeneroId);
             });
 
             modelBuilder.Entity<TipoUsuario>(entity =>
             {
-                entity.Property(e => e.Tipo).HasColumnType("varchar(13)");
+                entity.Property(e => e.Nombre).HasColumnType("varchar(13)");
                 entity
                     .HasOne(e => e.Usuario)
                     .WithOne(e => e.TipoUsuario)
@@ -121,7 +123,7 @@ namespace API_restauranteHamburguesas.Data
                 entity.HasIndex(e => e.EstadoComidaId).IsUnique(false);
                 entity.Property(e => e.Descripcion).HasColumnType("text");
                 entity.Property(e => e.Precio).HasColumnType("decimal(2,1)");
-                entity.HasIndex(e => e.CategoriaId_Comida).IsUnique(false);
+                entity.HasIndex(e => e.CategoriaIdComida).IsUnique(false);
                 entity
                     .HasOne(e => e.ComboComida)
                     .WithOne(e => e.Comida)
@@ -140,8 +142,8 @@ namespace API_restauranteHamburguesas.Data
                 entity.HasIndex(e => e.EstadoComboId).IsUnique(false);
                 entity.Property(e => e.Descripcion).HasColumnType("text");
                 entity.Property(e => e.Descuento).HasColumnType("decimal(1,1)");
-                entity.Property(e => e.CategoriaId_Combo).HasColumnType("int");
-                entity.HasIndex(e => e.CategoriaId_Combo).IsUnique(false);
+                entity.Property(e => e.CategoriaIdCombo).HasColumnType("int");
+                entity.HasIndex(e => e.CategoriaIdCombo).IsUnique(false);
                 entity
                     .HasOne(e => e.ComboComida)
                     .WithOne(e => e.Combo)
@@ -169,7 +171,7 @@ namespace API_restauranteHamburguesas.Data
                 entity
                     .HasOne(e => e.Comida)
                     .WithOne(e => e.CategoriaComida)
-                    .HasForeignKey<Comida>(e => e.CategoriaId_Comida)
+                    .HasForeignKey<Comida>(e => e.CategoriaIdComida)
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
@@ -179,7 +181,7 @@ namespace API_restauranteHamburguesas.Data
                 entity
                     .HasOne(e => e.Combo)
                     .WithOne(e => e.CategoriaCombo)
-                    .HasForeignKey<Combo>(e => e.CategoriaId_Combo)
+                    .HasForeignKey<Combo>(e => e.CategoriaIdCombo)
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
@@ -187,8 +189,8 @@ namespace API_restauranteHamburguesas.Data
 
             modelBuilder.Entity<Orden>(entity =>
             {
-                entity.Property(e => e.Fecha).HasColumnType("date");
-                entity.HasIndex(e => e.ClienteId_Orden).IsUnique(false);
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+                entity.HasIndex(e => e.ClienteId).IsUnique(false);
                 entity
                     .HasOne(e => e.Carrito)
                     .WithOne(e => e.Orden)

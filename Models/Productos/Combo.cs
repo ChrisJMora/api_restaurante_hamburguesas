@@ -14,7 +14,7 @@ namespace api_restaurante_hamburguesas.Models.Productos
         public double Descuento { get; set; }
 
         [Column("id_categoria_combo")]
-        public int? CategoriaId_Combo { get; set; }
+        public int? CategoriaIdCombo { get; set; }
 
         [JsonIgnore]
         public CategoriaCombo? CategoriaCombo { get; set; }

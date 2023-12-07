@@ -17,10 +17,10 @@ namespace api_restaurante_hamburguesas.Controllers
             _context = context;
         }
 
-        // GET: api/Usuario
-        [HttpGet("ObtenerEstadosUsuario")]
+        // GET: api/Estado
+        [HttpGet("ObtenerEstados")]
         public async Task<ActionResult<Estado[]>>
-            ObtenerEstadosUsuario()
+            ObtenerEstados()
         {
             try
             {
@@ -34,12 +34,12 @@ namespace api_restaurante_hamburguesas.Controllers
             }
         }
 
-        // GET: api/Usuario
-        [HttpGet("ObtenerEstadoUsuario/{idEstado}")]
+        // GET: api/Estado
+        [HttpGet("ObtenerEstado/{idEstado}")]
         public async Task<ActionResult<Estado>>
-            ObtenerEstadoUsuario(int idEstadoUsuario)
+            ObtenerEstado(int idEstado)
         {
-            try { return Ok(await BuscarEstado(idEstadoUsuario)); }
+            try { return Ok(await BuscarEstado(idEstado)); }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);

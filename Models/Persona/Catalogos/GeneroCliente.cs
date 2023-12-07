@@ -10,7 +10,7 @@ namespace api_restaurante_hamburguesas.Models.Persona.Catalogos
         [Key]
         public int GeneroId { get; set; }
         [Column("genero_cliente", Order = 2)]
-        public string? Genero { get; set; }
+        public string? Nombre { get; set; }
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
     }

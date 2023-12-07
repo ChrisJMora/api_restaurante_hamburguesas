@@ -16,7 +16,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.
                 """,
                 Precio = 5.5f,
-                CategoriaId_Comida = 1
+                CategoriaIdComida = 1
             },
 
             new Comida
@@ -28,7 +28,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 Doble carne con queso, tocino, lechuga, tomate y aderezos.
                 """,
                 Precio = 7.5f,
-                CategoriaId_Comida = 1
+                CategoriaIdComida = 1
             },
 
             new Comida
@@ -40,7 +40,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 Una hamburguesa más pequeña con queso y vegetales básicos.
                 """,
                 Precio = 3.5f,
-                CategoriaId_Comida = 1
+                CategoriaIdComida = 1
             },
 
 
@@ -52,7 +52,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 EstadoComidaId = 1,
                 Descripcion = "Papas fritas grandes",
                 Precio = 2.5f,
-                CategoriaId_Comida = 3
+                CategoriaIdComida = 3
             },
 
             new Comida
@@ -62,7 +62,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 EstadoComidaId = 1,
                 Descripcion = "Papas fritas pequeñas",
                 Precio = 1.5f,
-                CategoriaId_Comida = 3
+                CategoriaIdComida = 3
             },
 
             //BEBIDAS
@@ -73,7 +73,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 EstadoComidaId = 1,
                 Descripcion = "Coca Cola personal de 500 ml",
                 Precio = 2.5f,
-                CategoriaId_Comida = 2
+                CategoriaIdComida = 2
             },
 
             //POSTRES
@@ -84,7 +84,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 EstadoComidaId = 1,
                 Descripcion = "Helado de vainilla",
                 Precio = 1.5f,
-                CategoriaId_Comida = 4
+                CategoriaIdComida = 4
             },
 
             new Comida
@@ -94,7 +94,7 @@ namespace api_restaurante_hamburguesas.Utils.Productos
                 EstadoComidaId = 1,
                 Descripcion = "Helado de chocalate",
                 Precio = 1.5f,
-                CategoriaId_Comida = 4
+                CategoriaIdComida = 4
             }
 
         };

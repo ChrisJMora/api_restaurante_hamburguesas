@@ -72,7 +72,7 @@ namespace api_restaurante_hamburguesas.Controllers
 
         // GET: api/Carrito
         [HttpGet("ObtenerComidasCombo/{idCombo}")]
-        public async Task<ActionResult<ComboCarrito[]>>
+        public async Task<ActionResult<ComidaCarrito[]>>
             ObtenerComidasCombo(int idCombo)
         {
             try

@@ -8,7 +8,7 @@ namespace api_restaurante_hamburguesas.Models.Productos.Catalogos
     {
         [Column("id_categoria_combo")]
         [Key]
-        public int CategoriaId_Combo { get; set; }
+        public int CategoriaIdCombo { get; set; }
 
         [Column("nombre_categoria_combo")]
         [Required]

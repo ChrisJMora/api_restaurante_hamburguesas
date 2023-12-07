@@ -4,6 +4,7 @@ using API_restauranteHamburguesas.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api_restaurante_hamburguesas.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231206210948_Test2")]
+    partial class Test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,13 +85,13 @@ namespace api_restaurante_hamburguesas.Migrations
                         {
                             OrdenId = 1,
                             ClienteId = 1,
-                            Fecha = new DateTime(2023, 12, 6, 16, 57, 40, 437, DateTimeKind.Local).AddTicks(733)
+                            Fecha = new DateTime(2023, 12, 6, 16, 9, 47, 907, DateTimeKind.Local).AddTicks(1141)
                         },
                         new
                         {
                             OrdenId = 2,
                             ClienteId = 2,
-                            Fecha = new DateTime(2023, 12, 6, 16, 57, 40, 437, DateTimeKind.Local).AddTicks(749)
+                            Fecha = new DateTime(2023, 12, 6, 16, 9, 47, 907, DateTimeKind.Local).AddTicks(1164)
                         });
                 });
 
@@ -228,7 +231,7 @@ namespace api_restaurante_hamburguesas.Migrations
 
                     b.Property<string>("TelefonoCliente")
                         .IsRequired()
-                        .HasColumnType("varchar(12)")
+                        .HasColumnType("varchar(10)")
                         .HasColumnName("telefono_cliente");
 
                     b.HasKey("ClienteId");
@@ -335,11 +338,11 @@ namespace api_restaurante_hamburguesas.Migrations
                         {
                             UsuarioId = 1,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3782),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3772),
+                            FechaAcceso = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4372),
+                            FechaCreacion = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4360),
                             NombreUsuario = "admin",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEJpMyId+3d28n5UJtxoB+k4TXBfqyNC6kvApuJ7TUE+bhUzihBaih0V5+oesvmr6rw==",
-                            SaltPassword = "41EE35701EBAFCC29534BDE021B32C6B59DCF605518FF285F8B198D95CBA41F989E7C74913D4B7C71C6320FB0B409E292AEC24A80B5486AA3D8C202D5FFABAD3",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAEPKstRJYJzZyfcqmUWYIMwUybTRfzFFtyDjlR/09krTIAYmkmH+iV5I8m/5QOyWrGQ==",
+                            SaltPassword = "2697AD1B76649885FD7C46CB9075C9C6F552FE2D16E58379DFCDB0CBC59C5E7F1D5FB414BC062564E74083C8CBF471125FE4A4D2E99317C493D87F8D8B8F0115",
                             TipoUsuarioId = 1
                         },
                         new
@@ -347,11 +350,11 @@ namespace api_restaurante_hamburguesas.Migrations
                             UsuarioId = 2,
                             ClienteId = 1,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3788),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3787),
+                            FechaAcceso = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4379),
+                            FechaCreacion = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4378),
                             NombreUsuario = "chris2003",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEFdRaVakpVSureEsbz9oiTIvaNLRPdafxi9Lv7Oa3dMYi0gEEA1N6n7d4bSCLuD8ew==",
-                            SaltPassword = "7DEDCF052FE762424891F13925CF557ED30DB5F7FE65C6B42EFFD343410B95B7563D71CB507E3C3747026DE6C577D944C7B0704F777F71B8E3E7CF259C751E58",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAEJYNmkh9BYMaruhhooHWbYQxICZmERd80M9W+oCDjk6MjJUSwRCre8iUrgug1Vfk1Q==",
+                            SaltPassword = "706DD8EFDE04D9B9854C1F194BCA979B3D69C81834B8A24426369D34125F95B3BB60CBF4E8ADB3D1C95165852F33A04A0EAA3DFD5B132CEC084EECAC3343FFA7",
                             TipoUsuarioId = 2
                         },
                         new
@@ -359,11 +362,11 @@ namespace api_restaurante_hamburguesas.Migrations
                             UsuarioId = 3,
                             ClienteId = 2,
                             EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3790),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3790),
+                            FechaAcceso = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4382),
+                            FechaCreacion = new DateTime(2023, 12, 6, 16, 9, 47, 710, DateTimeKind.Local).AddTicks(4381),
                             NombreUsuario = "xavier2007",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEKyqcqjwxegIwghjN+1FtF0kZ+2UrQNLJampPGGPoudzaKolG9RhdA8i/h2y/rDewQ==",
-                            SaltPassword = "3AA975EFD8E28975488397E4818B11CA5844CB1DF6490E2589F71AC2E93D9404786D48B2F159A9AA4EACA5E71C83E4AB5DA9C6E848248876858EB4AE3759EE25",
+                            PasswordUsuario = "AQAAAAIAAYagAAAAEJImFgeWLnVp/f7gqijnrSZL2hQF/fiE7DFz7N4I9X1nWKaPE5qXyMdjo2yyIy9oAw==",
+                            SaltPassword = "401EE0A9D0BA0E61DB6DF729935B552C65464B68BE9B8B47E64DCA608783AC4F9D7DC8AF0851505BB0178FBBDFB4B6FD8C3B08ACDA0DAF9816D2D58E802FAEE8",
                             TipoUsuarioId = 2
                         });
                 });

@@ -175,7 +175,7 @@ namespace api_restaurante_hamburguesas.Controllers
             try
             {
                 return await _context.Comidas
-                    .Where(e => e.CategoriaId_Comida == idCategoria)
+                    .Where(e => e.CategoriaIdComida == idCategoria)
                     .ToArrayAsync();
             }
             catch (Exception ex)
@@ -192,7 +192,7 @@ namespace api_restaurante_hamburguesas.Controllers
             try
             {
                 return await _context.Combos
-                    .Where(e => e.CategoriaId_Combo == idCategoria)
+                    .Where(e => e.CategoriaIdCombo == idCategoria)
                     .ToArrayAsync();
             }
             catch (Exception ex)
@@ -215,7 +215,7 @@ namespace api_restaurante_hamburguesas.Controllers
                     EstadoComidaId = 1,
                     Descripcion = descripcion,
                     Precio = precio,
-                    CategoriaId_Comida = idCategoria
+                    CategoriaIdComida = idCategoria
                 };
                 await _context.Comidas.AddAsync(comida);
                 await _context.SaveChangesAsync();
@@ -241,7 +241,7 @@ namespace api_restaurante_hamburguesas.Controllers
                     EstadoComboId = 1,
                     Descripcion = descripcion,
                     Descuento = descuento,
-                    CategoriaId_Combo = idCategoria
+                    CategoriaIdCombo = idCategoria
                 };
                 await _context.Combos.AddAsync(combo);
                 await _context.SaveChangesAsync();
@@ -327,7 +327,7 @@ namespace api_restaurante_hamburguesas.Controllers
                 comida.Nombre = nombre;
                 comida.Descripcion = descripcion;
                 comida.Precio = precio;
-                comida.CategoriaId_Comida = idCategoria;
+                comida.CategoriaIdComida = idCategoria;
                 await _context.SaveChangesAsync();
                 return Ok("Comida modificada correctamente");
             }
@@ -351,7 +351,7 @@ namespace api_restaurante_hamburguesas.Controllers
                 combo.Nombre = nombre;
                 combo.Descripcion = descripcion;
                 combo.Descuento = descuento;
-                combo.CategoriaId_Combo = idCategoria;
+                combo.CategoriaIdCombo = idCategoria;
                 await _context.SaveChangesAsync();
                 return Ok("Combo modificado correctamente");
             }

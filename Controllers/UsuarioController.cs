@@ -65,6 +65,25 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Usuario
+        [HttpGet("ObtenerClientes")]
+        public async Task<ActionResult<Cliente[]>>
+            ObtenerClientes()
+        {
+            try
+            {
+                Cliente[] clientes = await _context.Clientes
+                    .OrderBy(b => b.Nombre)
+                    .ToArrayAsync();
+                if (clientes.Length == 0) throw new Exception("Lista de clientes vacía");
+                return Ok(clientes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Usuario
         [HttpGet("ObtenerGenerosCliente")]
         public async Task<ActionResult<GeneroCliente[]>>
             ObtenerGenerosCliente()
@@ -82,9 +101,26 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Usuario
+        [HttpGet("ObtenerGeneroCliente/{idGeneroCliente}")]
+        public async Task<ActionResult<GeneroCliente>>
+            ObtenerGeneroCliente(int idGeneroCliente)
+        {
+            try
+            {
+                GeneroCliente? genero = await _context.Generos.FindAsync(idGeneroCliente);
+                if (genero == null) throw new Exception("Género del cliente no encontrado");
+                return Ok(genero);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Usuario
         [HttpGet("ObtenerTiposUsuario")]
         public async Task<ActionResult<TipoUsuario[]>>
-            ObtenerTiposUsuarios()
+            ObtenerTiposUsuario()
         {
             try
             {
@@ -137,6 +173,8 @@ namespace api_restaurante_hamburguesas.Controllers
                 int? clienteId = usuario.ClienteId;
                 if (clienteId == null)
                     throw new Exception($"No hay un cliente asociado al usuario: {nombreUsuario}");
+                usuario.FechaAcceso = new FechaHora().ObtenerFechaHoraLocal();
+                await GuardarCambios();
                 return Ok(await BuscarCliente((int)clienteId));
             }
             catch (Exception ex)
@@ -147,7 +185,7 @@ namespace api_restaurante_hamburguesas.Controllers
 
         // GET: api/Usuario
         [HttpGet("IncioSesionAdmin/{nombreUsuario},{password}")]
-        public async Task<ActionResult<bool>>
+        public async Task<ActionResult>
             InicioSesionAdmin(string nombreUsuario, string password)
         {
             try
@@ -157,7 +195,9 @@ namespace api_restaurante_hamburguesas.Controllers
                     throw new Exception("Usuario Deshabilitado");
                 if (usuario.TipoUsuarioId == 2)
                     throw new Exception("Acceso denegado");
-                return Ok(true);
+                usuario.FechaAcceso = new FechaHora().ObtenerFechaHoraLocal();
+                await GuardarCambios();
+                return Ok($"Bienvenido, {nombreUsuario}");
             }
             catch (Exception ex)
             {
@@ -190,12 +230,11 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // PUT: api/Usuario
-        [HttpPut("ModificarUsuario/{nombreUsuarioAdmin},{passwordAdmin},{oldNombreUsuario},{nombreUsuario},{password},{estadoUsuario}")]
+        [HttpPut("ModificarUsuario/{oldNombreUsuario},{nombreUsuario},{password},{estadoUsuario}")]
         public async Task<ActionResult>
-            ModificarUsuario(string nombreUsuarioAdmin, string passwordAdmin, string oldNombreUsuario,
-            string nombreUsuario, string password, int estadoUsuario)
+            ModificarUsuario(string oldNombreUsuario, string nombreUsuario, string password, int estadoUsuario)
         {
-            try { return await ModificarCredenciales(nombreUsuarioAdmin, passwordAdmin, oldNombreUsuario,
+            try { return await ModificarCredenciales(oldNombreUsuario,
                 nombreUsuario, password, estadoUsuario); }
             catch (Exception ex)
             {
@@ -215,7 +254,7 @@ namespace api_restaurante_hamburguesas.Controllers
                 cliente.Nombre = nuevoCliente.Nombre;
                 cliente.Apellido = nuevoCliente.Apellido;
                 cliente.FechaNacimiento = nuevoCliente.FechaNacimiento;
-                cliente.GeneroId_Cliente = nuevoCliente.GeneroId_Cliente;
+                cliente.GeneroId = nuevoCliente.GeneroId;
 
                 await GuardarCambios();
                 return Ok("Se ha modificado el cliente con éxito");
@@ -226,11 +265,11 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // PUT: apiUsuario
-        [HttpPut("ModificarEstadoUsuario/{nombreUsuarioAdmin},{passwordAdmin},{nombreUsuario},{idEstado}")]
+        [HttpPut("ModificarEstadoUsuario/{nombreUsuario},{idEstado}")]
         public async Task<ActionResult>
-            ModificarEstadoUsuario(string nombreUsuarioAdmin, string passwordAdmin, string nombreUsuario, int idEstado)
+            ModificarEstadoUsuario(string nombreUsuario, int idEstado)
         {
-            try { return await ModificarEstadoCuenta(nombreUsuarioAdmin, passwordAdmin, nombreUsuario, idEstado); }
+            try { return await ModificarEstadoCuenta(nombreUsuario, idEstado); }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -238,11 +277,11 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // DELETE: api/Usuario
-        [HttpDelete("EliminarUsuario/{nombreUsuarioAdmin},{passwordAdmin},{nombreUsuario}")]
+        [HttpDelete("EliminarUsuario/{nombreUsuario}")]
         public async Task<ActionResult>
-            EliminarUsuario(string nombreUsuarioAdmin, string passwordAdmin, string nombreUsuario)
+            EliminarUsuario(string nombreUsuario)
         {
-            try { return await EliminarCuenta(nombreUsuarioAdmin, passwordAdmin, nombreUsuario); }
+            try { return await EliminarCuenta(nombreUsuario); }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -276,7 +315,6 @@ namespace api_restaurante_hamburguesas.Controllers
             Usuario usuario = await BuscarUsuario(nombreUsuario);
             if (!PasswordValida(usuario.SaltPassword, usuario.PasswordUsuario, password))
                 throw new Exception("La contraseña es incorrecta");
-            usuario.FechaAcceso = DateTime.Now;
             return usuario;
         }
 
@@ -296,7 +334,7 @@ namespace api_restaurante_hamburguesas.Controllers
             // Busca si el tipo del usuario se encuentra en la base de datos
             TipoUsuario? tipoUsuario = await _context.TiposUsuario.FindAsync(idTipoUsuario);
             if (tipoUsuario == null)
-                throw new Exception("Tipo de usuario no encontrado");
+                throw new Exception("Nombre de usuario no encontrado");
             return tipoUsuario;
         }
 
@@ -375,16 +413,15 @@ namespace api_restaurante_hamburguesas.Controllers
         // PUT
             
         private async Task<ActionResult>
-            ModificarCredenciales(string nombreUsuarioAdmin, string passwordAdmin, string oldNombreUsuario,
-            string nombreUsuario, string password, int estadoUsuario)
+            ModificarCredenciales(string oldNombreUsuario, string nombreUsuario, string password, int estadoUsuario)
         {
-            Usuario usuario = await BuscarUsuario(nombreUsuarioAdmin);
+            /*Usuario usuario = await BuscarUsuario(nombreUsuarioAdmin);
             if (usuario.EstadoUsuarioId == 2)
                 throw new Exception("Usuario Deshabilitado");
             if (usuario.TipoUsuarioId == 2)
                 throw new Exception("Acceso denegado");
             if (!PasswordValida(usuario.SaltPassword, usuario.PasswordUsuario, passwordAdmin))
-                throw new Exception("Contraseña incorrecta");
+                throw new Exception("Contraseña incorrecta");*/
             Usuario oldUsuario = await BuscarUsuario(oldNombreUsuario);
             oldUsuario.NombreUsuario = nombreUsuario;
             oldUsuario.EncriptarPassword(password);
@@ -394,15 +431,15 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         private async Task<ActionResult>
-            ModificarEstadoCuenta(string nombreUsuarioAdmin, string passwordAdmin, string nombreUsuario, int idEstado)
+            ModificarEstadoCuenta(string nombreUsuario, int idEstado)
         {
-            Usuario usuarioAdmin = await BuscarUsuario(nombreUsuarioAdmin);
+/*            Usuario usuarioAdmin = await BuscarUsuario(nombreUsuarioAdmin);
             if (usuarioAdmin.EstadoUsuarioId == 2)
                 throw new Exception("Usuario Deshabilitado");
             if (usuarioAdmin.TipoUsuarioId == 2)
                 throw new Exception("Acceso denegado");
             if (!PasswordValida(usuarioAdmin.SaltPassword, usuarioAdmin.PasswordUsuario, passwordAdmin))
-                throw new Exception("Contraseña incorrecta");
+                throw new Exception("Contraseña incorrecta");*/
             Usuario aHabilitar = await BuscarUsuario(nombreUsuario);
             aHabilitar.EstadoUsuarioId = idEstado;
             await GuardarCambios();
@@ -412,15 +449,15 @@ namespace api_restaurante_hamburguesas.Controllers
         // DELETE
 
         private async Task<ActionResult>
-            EliminarCuenta(string nombreUsuarioAdmin, string passwordAdmin, string nombreUsuario)
+            EliminarCuenta(string nombreUsuario)
         {
-            Usuario usuarioAdmin = await BuscarUsuario(nombreUsuarioAdmin);
+            /*Usuario usuarioAdmin = await BuscarUsuario(nombreUsuarioAdmin);
             if (usuarioAdmin.EstadoUsuarioId == 2)
                 throw new Exception("Usuario Deshabilitado");
             if (usuarioAdmin.TipoUsuarioId == 2)
                 throw new Exception("Acceso denegado");
             if (!PasswordValida(usuarioAdmin.SaltPassword, usuarioAdmin.PasswordUsuario, passwordAdmin))
-                throw new Exception("Contraseña incorrecta");
+                throw new Exception("Contraseña incorrecta");*/
             Usuario aEliminar = await BuscarUsuario(nombreUsuario);
             _context.Usuarios.Remove(aEliminar);
             await GuardarCambios();
@@ -472,8 +509,8 @@ namespace api_restaurante_hamburguesas.Controllers
             {
                 TipoUsuarioId = tipoUsuario,  
                 NombreUsuario = nombreUsuario,
-                FechaCreacion = DateTime.Now,
-                FechaAcceso = DateTime.Now,
+                FechaCreacion = new FechaHora().ObtenerFechaHoraLocal(),
+                FechaAcceso = new FechaHora().ObtenerFechaHoraLocal(),
                 EstadoUsuarioId = 1, // Habilitado
                 ClienteId = null,
             };

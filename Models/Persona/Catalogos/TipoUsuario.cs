@@ -11,7 +11,7 @@ namespace api_restaurante_hamburguesas.Models.Persona.Catalogos
         public int TipoUsuarioId { get; set; }
 
         [Column("tipo_usuario", Order = 2)]
-        public string? Tipo { get; set; }
+        public string? Nombre { get; set; }
 
         [JsonIgnore]
         public Usuario? Usuario { get; set; }

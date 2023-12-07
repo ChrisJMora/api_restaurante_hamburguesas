@@ -159,7 +159,9 @@ namespace api_restaurante_hamburguesas.Migrations
                     nombre_cliente = table.Column<string>(type: "varchar(20)", nullable: false),
                     apellido_cliente = table.Column<string>(type: "varchar(20)", nullable: false),
                     fechaN_cliente = table.Column<DateTime>(type: "date", nullable: false),
-                    id_genero_cliente = table.Column<int>(type: "int", nullable: false)
+                    id_genero_cliente = table.Column<int>(type: "int", nullable: false),
+                    telefono_cliente = table.Column<string>(type: "varchar(10)", nullable: false),
+                    mail_cliente = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,7 +207,7 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     id_orden = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    fecha_compra_orden = table.Column<DateTime>(type: "date", nullable: false),
+                    fecha_compra_orden = table.Column<DateTime>(type: "datetime", nullable: false),
                     cliente_id_orden = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -345,11 +347,11 @@ namespace api_restaurante_hamburguesas.Migrations
 
             migrationBuilder.InsertData(
                 table: "Clientes",
-                columns: new[] { "id_cliente", "apellido_cliente", "fechaN_cliente", "id_genero_cliente", "nombre_cliente" },
+                columns: new[] { "id_cliente", "apellido_cliente", "fechaN_cliente", "id_genero_cliente", "mail_cliente", "nombre_cliente", "telefono_cliente" },
                 values: new object[,]
                 {
-                    { 1, "Jácome", new DateTime(2003, 9, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Christian" },
-                    { 2, "Jácome", new DateTime(2007, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Xavier" }
+                    { 1, "Jácome", new DateTime(2003, 9, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "chrisjMora@gmail.com", "Christian", "0992744743" },
+                    { 2, "Jácome", new DateTime(2007, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "xavierjMora@gmail.com", "Xavier", "0992744743" }
                 });
 
             migrationBuilder.InsertData(
@@ -380,7 +382,7 @@ namespace api_restaurante_hamburguesas.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "id_usuario", "id_cliente", "estado_usuario", "fecha_acceso", "fecha_creacion", "nombre_usuario", "password_usuario", "salt_password", "id_tipo_usuario" },
-                values: new object[] { 1, null, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7506), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7492), "admin", "AQAAAAIAAYagAAAAELNPoSIDhuaw8WZMK2R1VtjDupswGSDnvYNsygcN0rlVnG4NvUHLQY8gxeXokFyOUg==", "170965456C39FC5D25C3C8E5E93E2F3909812BEC7B2BF2BE5044DCED6486B6523D971B1119FF8DBD70693223F9EE01B286D8917B76E0418FBAD2FB8A91DA2AFD", 1 });
+                values: new object[] { 1, null, 1, new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4670), new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4659), "admin", "AQAAAAIAAYagAAAAEOZWeqHMnQ5CEeyQJrMUwZ7FRbJZEwW73zL8hb83LtnfUMPhvNWnJuRzkLp97YA8TA==", "B85F1D2E74485E7C2CF1F7BA7B213E6D50B83BBD0AC2647B179CDBD5090783D45D409C6A30E51D90654727CA180D8DCDF1E78C8BF18488B2B07E291FE63B056B", 1 });
 
             migrationBuilder.InsertData(
                 table: "ComboComida",
@@ -411,8 +413,8 @@ namespace api_restaurante_hamburguesas.Migrations
                 columns: new[] { "id_orden", "cliente_id_orden", "fecha_compra_orden" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4188) },
-                    { 2, 2, new DateTime(2023, 12, 4, 18, 8, 56, 824, DateTimeKind.Local).AddTicks(4227) }
+                    { 1, 1, new DateTime(2023, 12, 6, 16, 8, 3, 367, DateTimeKind.Local).AddTicks(169) },
+                    { 2, 2, new DateTime(2023, 12, 6, 16, 8, 3, 367, DateTimeKind.Local).AddTicks(195) }
                 });
 
             migrationBuilder.InsertData(
@@ -420,8 +422,8 @@ namespace api_restaurante_hamburguesas.Migrations
                 columns: new[] { "id_usuario", "id_cliente", "estado_usuario", "fecha_acceso", "fecha_creacion", "nombre_usuario", "password_usuario", "salt_password", "id_tipo_usuario" },
                 values: new object[,]
                 {
-                    { 2, 1, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7514), "chris2003", "AQAAAAIAAYagAAAAEH56EzP7y8NgIT+LUJSr3y93z98iSCuHmA0FXVXjuYnE83wex2cs4phbnJjKcOjcsw==", "6BCB48B6F17F890FE18E2E542A5A883615EBA70BB83A402766A99E0DF5B1B215700D16C3B2691081FADF50D9D0C63FCDCDC8B233AD8212A40BA5C39E03B18483", 2 },
-                    { 3, 2, 1, new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7519), new DateTime(2023, 12, 4, 18, 8, 56, 588, DateTimeKind.Local).AddTicks(7518), "xavier2007", "AQAAAAIAAYagAAAAEH0cYlqM04fVp+vv6mOuVxIRx7BZSYL6YaOgbPjVijwA16iYOq0yqYYGqphe9u7kYg==", "10C7305832E3D6955B0B6E1B0FA2448EF6389024452B3602848F0B067D0BF83ADC9C80AF8AFE15580F0964594CC81D40F52B36591E4629FC64B79AFECAB724D2", 2 }
+                    { 2, 1, 1, new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4678), new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4677), "chris2003", "AQAAAAIAAYagAAAAEKLCjs2ZCEwXxnHNZ4XmqMIbnlNWRh5qsJcZ3WoKTc+WvV8QucVBDCkVBjnG8/rn4g==", "4639AA1976006DC27F7F36F363D17EF0E5B4781FD69F556B0914F3293ABF2CFF84A9BD6012B29DE9C5C528C8F45B0479248F53A16015073C895DDE953081B4ED", 2 },
+                    { 3, 2, 1, new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4682), new DateTime(2023, 12, 6, 16, 8, 3, 157, DateTimeKind.Local).AddTicks(4681), "xavier2007", "AQAAAAIAAYagAAAAEGztPYCAeuayMBgxmmsAqgpkcx+l1cmFgOqXLQof3mkfHJuDOvpVah6R35+3CNxGXA==", "944E245D11EC528F6DE5FE3107170A4F811C08FC4623668C123F9F92814AFE151588ED327141FBE528F87FA7C0E1959640F08A00A0888D6E5AF499535E5AAD07", 2 }
                 });
 
             migrationBuilder.InsertData(

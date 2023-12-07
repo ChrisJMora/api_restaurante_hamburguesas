@@ -24,12 +24,20 @@ namespace api_restaurante_hamburguesas.Models.Persona
         [Required]
         public DateTime? FechaNacimiento { get; set; }
 
-        [JsonIgnore]
-        public GeneroCliente? Genero { get; set; }
-
         [Column("id_genero_cliente", Order = 5)]
         [Required]
-        public int GeneroId_Cliente { get; set; }
+        public int GeneroId { get; set; }
+
+        [Column("telefono_cliente")]
+        [Required]
+        public required string TelefonoCliente { get; set; }
+
+        [Column("mail_cliente")]
+        [Required]
+        public required string MailCliente { get; set; }
+
+        [JsonIgnore]
+        public GeneroCliente? Genero { get; set; }
 
         [JsonIgnore]
         public Usuario? Usuario { get; set; }

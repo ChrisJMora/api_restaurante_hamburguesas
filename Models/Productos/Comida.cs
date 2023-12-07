@@ -11,10 +11,10 @@ namespace api_restaurante_hamburguesas.Models.Productos
     {
         [Column("precio_comida")]
         [Required]
-        public double? Precio { get; set; }
+        public double Precio { get; set; }
 
         [Column("id_categoria_comida")]
-        public int? CategoriaIdComida { get; set; }
+        public int CategoriaIdComida { get; set; }
 
         [JsonIgnore]
         public CategoriaComida? CategoriaComida { get; set; }

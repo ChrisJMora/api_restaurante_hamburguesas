@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
-namespace api_restaurante_hamburguesas.Models
+﻿namespace api_restaurante_hamburguesas.Auxiliaries
 {
     public class FechaHora
     {

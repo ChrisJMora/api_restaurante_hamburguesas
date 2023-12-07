@@ -1,8 +1,8 @@
-﻿using api_restaurante_hamburguesas.Models.Productos;
+﻿using api_restaurante_hamburguesas.Auxiliaries.ApiMethods;
+using api_restaurante_hamburguesas.Models.Productos;
 using api_restaurante_hamburguesas.Models.Productos.Catalogos;
 using API_restauranteHamburguesas.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api_restaurante_hamburguesas.Controllers
 {
@@ -11,10 +11,12 @@ namespace api_restaurante_hamburguesas.Controllers
     public class ProductoController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly ProductoMethods _productoMethods;
 
         public ProductoController(ApplicationContext context)
         {
             _context = context;
+            _productoMethods = new ProductoMethods(_context);
         }
 
         // GET: api/Productos
@@ -24,7 +26,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                return await _context.Comidas.ToArrayAsync();
+                return Ok(await _productoMethods.ObtenerComidas());
             }
             catch (Exception ex)
             {
@@ -39,7 +41,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                return await _context.Combos.ToArrayAsync();
+                return Ok(await _productoMethods.ObtenerCombos());
             }
             catch (Exception ex)
             {
@@ -54,7 +56,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                return await _context.CategoriasComida.ToArrayAsync();
+                return Ok(await _productoMethods.ObtenerCategoriasComida());
             }
             catch (Exception ex)
             {
@@ -69,7 +71,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                return await _context.CategoriasCombo.ToArrayAsync();
+                return Ok(await _productoMethods.ObtenerCategoriasCombo());
             }
             catch (Exception ex)
             {
@@ -78,15 +80,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Producto
-        [HttpGet("ObtenerComida/{idComida}")]
+        [HttpGet("ObtenerComidaCarrito/{idComida}")]
         public async Task<ActionResult<Comida>>
             ObtenerComida(int idComida)
         {
             try
             {
-                Comida? comida = await _context.Comidas.FindAsync(idComida);
-                if (comida == null) throw new Exception("Comida no encontrada");
-                return comida;
+                return Ok(await _productoMethods.ObtenerComida(idComida));
             }
             catch (Exception ex)
             {
@@ -101,9 +101,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                Combo? combo = await _context.Combos.FindAsync(idCombo);
-                if (combo == null) throw new Exception("Combo no encontrado");
-                return combo;
+                return Ok(await _productoMethods.ObtenerCombo(idCombo));
             }
             catch (Exception ex)
             {
@@ -118,9 +116,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaComida? categoriaComida = await _context.CategoriasComida.FindAsync(idCategoriaComida);
-                if (categoriaComida == null) throw new Exception("Categoria comida no encontrada");
-                return categoriaComida;
+                return Ok(await _productoMethods.ObtenerCategoriaComida(idCategoriaComida));
             }
             catch (Exception ex)
             {
@@ -135,9 +131,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaCombo? categoriaCombo = await _context.CategoriasCombo.FindAsync(idCategoriaCombo);
-                if (categoriaCombo == null) throw new Exception("Categoria combo no encontrado");
-                return categoriaCombo;
+                return Ok(await _productoMethods.ObtenerCategoriaCombo(idCategoriaCombo));
             }
             catch (Exception ex)
             {
@@ -152,14 +146,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                Combo? combo = await _context.Combos.FindAsync(idCombo);
-                if (combo == null) throw new Exception("Combo no encontrado");
-                ComboComida[] comboComidas = await _context.ComboComida
-                    .Where(b => b.IdCombo == idCombo)
-                    .ToArrayAsync();
-                if (comboComidas.Length <= 0)
-                    throw new Exception($"No se encontraron comidas asociadas al combo {combo.Nombre}");
-                return comboComidas.ToArray();
+                return Ok(await _productoMethods.ObtenerComidasCombo(idCombo));
             }
             catch (Exception ex)
             {
@@ -168,15 +155,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Producto
-        [HttpGet("FiltrarComidas/{idCategoria}")]
+        [HttpGet("FiltrarComidas/{idCategoriaComida}")]
         public async Task<ActionResult<Comida[]>>
-            FiltrarComidas(int idCategoria)
+            FiltrarComidas(int idCategoriaComida)
         {
             try
             {
-                return await _context.Comidas
-                    .Where(e => e.CategoriaIdComida == idCategoria)
-                    .ToArrayAsync();
+                return Ok(await _productoMethods.FiltrarComidas(idCategoriaComida));
             }
             catch (Exception ex)
             {
@@ -185,15 +170,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Producto
-        [HttpGet("FiltrarCombos/{idCategoria}")]
+        [HttpGet("FiltrarCombos/{idCategoriaComvo}")]
         public async Task<ActionResult<Combo[]>>
-            FiltrarCombos(int idCategoria)
+            FiltrarCombos(int idCategoriaCombo)
         {
             try
             {
-                return await _context.Combos
-                    .Where(e => e.CategoriaIdCombo == idCategoria)
-                    .ToArrayAsync();
+                return Ok(await _productoMethods.FiltrarCombos(idCategoriaCombo));
             }
             catch (Exception ex)
             {
@@ -202,23 +185,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // POST: api/Producto
-        [HttpPost("AgregarComida/{nombre},{descripcion},{precio},{idCategoria}")]
+        [HttpPost("AgregarComida/{nombre},{descripcion},{precio},{idCategoriaComida}")]
         public async Task<ActionResult>
-            AgregarComida(string nombre, string descripcion, double precio, int idCategoria)
+            AgregarComida(string nombre, string descripcion, double precio, int idCategoriaComida)
         {
             try
             {
-                if (precio < 0) { throw new Exception("Formato del precio incorrecto"); }
-                Comida comida = new Comida
-                {
-                    Nombre = nombre,
-                    EstadoComidaId = 1,
-                    Descripcion = descripcion,
-                    Precio = precio,
-                    CategoriaIdComida = idCategoria
-                };
-                await _context.Comidas.AddAsync(comida);
-                await _context.SaveChangesAsync();
+                await _productoMethods.AgregarComida(nombre, descripcion, precio, idCategoriaComida);
                 return Ok("Comida agregada correctamente");
             }
             catch (Exception ex)
@@ -228,23 +201,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // POST: api/Producto
-        [HttpPost("AgregarCombo/{nombre},{descripcion},{descuento},{idCategoria}")]
+        [HttpPost("AgregarCombo/{nombre},{descripcion},{descuento},{idCategoriaCombo}")]
         public async Task<ActionResult>
-            AgregarCombo(string nombre, string descripcion, double descuento, int idCategoria)
+            AgregarCombo(string nombre, string descripcion, double descuento, int idCategoriaCombo)
         {
             try
             {
-                if (descuento < 0 || descuento > 1) { throw new Exception("Formato del descuento incorrecto"); }
-                Combo combo = new Combo
-                {
-                    Nombre = nombre,
-                    EstadoComboId = 1,
-                    Descripcion = descripcion,
-                    Descuento = descuento,
-                    CategoriaIdCombo = idCategoria
-                };
-                await _context.Combos.AddAsync(combo);
-                await _context.SaveChangesAsync();
+                await _productoMethods.AgregarCombo(nombre, descripcion, descuento, idCategoriaCombo);
                 return Ok("Combo agregado correctamente");
             }
             catch (Exception ex)
@@ -260,15 +223,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                if (cantidad < 0) { throw new Exception("Formato de la cantidad incorrecto"); }
-                ComboComida comboComida = new ComboComida()
-                {
-                    IdCombo = idCombo,
-                    IdComida = idComida,
-                    Cantidad = cantidad
-                };
-                await _context.ComboComida.AddAsync(comboComida);
-                await _context.SaveChangesAsync();
+                await _productoMethods.AgregarComidaCombo(idCombo, idComida, cantidad);
                 return Ok($"La comida {idComida} fue agregado al combo {idCombo} correctamente");
             }
             catch (Exception ex)
@@ -284,9 +239,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaComida categoriaComida = new CategoriaComida { Nombre = nombre };
-                await _context.CategoriasComida.AddAsync(categoriaComida);
-                await _context.SaveChangesAsync();
+                await _productoMethods.AgregarCategoriaComida(nombre);
                 return Ok($"La categoria comida ha sido agregada correctamente");
             }
             catch (Exception ex)
@@ -302,9 +255,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaCombo categoriaCombo = new CategoriaCombo { Nombre = nombre };
-                await _context.CategoriasCombo.AddAsync(categoriaCombo);
-                await _context.SaveChangesAsync();
+                await _productoMethods.AgregarCategoriaCombo(nombre);
                 return Ok($"La categoria combo ha sido agregada correctamente");
             }
             catch (Exception ex)
@@ -314,21 +265,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // PUT: api/Producto
-        [HttpPut("ModificarComida/{idComida},{nombre},{descripcion},{precio},{idCategoria}")]
+        [HttpPut("ModificarComida/{idComida},{nombre},{descripcion},{precio},{idCategoriaComida}")]
         public async Task<ActionResult>
-            ModificarComida(int idComida, string nombre, string descripcion, double precio, int idCategoria)
+            ModificarComida(int idComida, string nombre, string descripcion, double precio, int idCategoriaComida)
         {
             try
             {
-                if (precio < 0) { throw new Exception("Formato del precio incorrecto"); }
-                // Buscar Comida
-                Comida? comida = await _context.Comidas.FindAsync(idComida);
-                if (comida == null) { throw new Exception("Comida no encontrada"); }
-                comida.Nombre = nombre;
-                comida.Descripcion = descripcion;
-                comida.Precio = precio;
-                comida.CategoriaIdComida = idCategoria;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarComida(idComida, nombre, descripcion, precio, idCategoriaComida);
                 return Ok("Comida modificada correctamente");
             }
             catch (Exception ex)
@@ -338,21 +281,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // PUT: api/Producto
-        [HttpPut("ModificarCombo/{idCombo},{nombre},{descripcion},{descuento},{idCategoria}")]
+        [HttpPut("ModificarCombo/{idCombo},{nombre},{descripcion},{descuento},{idCategoriaComida}")]
         public async Task<ActionResult>
             ModificarCombo(int idCombo, string nombre, string descripcion, double descuento, int idCategoria)
         {
             try
             {
-                if (descuento < 0 || descuento > 1) { throw new Exception("Formato del descuento incorrecto"); }
-                // Buscar Combo
-                Combo? combo = await _context.Combos.FindAsync(idCombo);
-                if (combo == null) { throw new Exception("Combo no encontrado"); }
-                combo.Nombre = nombre;
-                combo.Descripcion = descripcion;
-                combo.Descuento = descuento;
-                combo.CategoriaIdCombo = idCategoria;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarCombo(idCombo, nombre, descripcion, descuento, idCategoria);
                 return Ok("Combo modificado correctamente");
             }
             catch (Exception ex)
@@ -368,11 +303,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                // Buscar Categoria Comida
-                CategoriaComida? categoriaComida = await _context.CategoriasComida.FindAsync(idCategoriaComida);
-                if (categoriaComida == null) { throw new Exception("Categoria comida no encontrado"); }
-                categoriaComida.Nombre = nombre;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarCategoriaComida(idCategoriaComida, nombre);
                 return Ok("Categoria comida modificada correctamente");
             }
             catch (Exception ex)
@@ -388,11 +319,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                // Buscar Categoria Comida
-                CategoriaCombo? categoriaCombo = await _context.CategoriasCombo.FindAsync(idCategoriaCombo);
-                if (categoriaCombo == null) { throw new Exception("Categoria combo no encontrado"); }
-                categoriaCombo.Nombre = nombre;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarCategoriaCombo(idCategoriaCombo, nombre);
                 return Ok("Categoria combo modificado correctamente");
             }
             catch (Exception ex)
@@ -408,11 +335,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                // Buscar Comida
-                Comida? comida = await _context.Comidas.FindAsync(idComida);
-                if (comida == null) { throw new Exception("Comida no encontrada"); }
-                comida.EstadoComidaId = idEstado;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarEstadoComida(idComida, idEstado);
                 return Ok("Estado de la comida modificado correctamente");
             }
             catch (Exception ex)
@@ -428,11 +351,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                // Buscar Combo
-                Combo? combo = await _context.Combos.FindAsync(idCombo);
-                if (combo == null) { throw new Exception("Combo no encontrada"); }
-                combo.EstadoComboId = idEstado;
-                await _context.SaveChangesAsync();
+                await _productoMethods.ModificarEstadoCombo(idCombo, idEstado);
                 return Ok("Estado del combo modificado correctamente");
             }
             catch (Exception ex)
@@ -442,16 +361,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // DELETE: api/Producto
-        [HttpDelete("EliminarComida/{idComida}")]
+        [HttpDelete("EliminarComidaCarrito/{idComida}")]
         public async Task<ActionResult>
             EliminarComida(int idComida)
         {
             try
             {
-                Comida? comida = await _context.Comidas.FindAsync(idComida);
-                if (comida == null) { throw new Exception("Comida no encontrada"); }
-                _context.Comidas.Remove(comida);
-                await _context.SaveChangesAsync();
+                await _productoMethods.EliminarComida(idComida);
                 return Ok("Comida eliminada correctamente");
             }
             catch (Exception ex)
@@ -461,16 +377,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // DELETE: api/Producto
-        [HttpDelete("EliminarCombo/{idCombo}")]
+        [HttpDelete("EliminarComboCarrito/{idCombo}")]
         public async Task<ActionResult>
             EliminarCombo(int idCombo)
         {
             try
             {
-                Combo? combo = await _context.Combos.FindAsync(idCombo);
-                if (combo == null) { throw new Exception("Combo no encontrado"); }
-                _context.Combos.Remove(combo);
-                await _context.SaveChangesAsync();
+                await _productoMethods.EliminarCombo(idCombo);
                 return Ok("Combo eliminado correctamente");
             }
             catch (Exception ex)
@@ -486,10 +399,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaComida? categoriaComida = await _context.CategoriasComida.FindAsync(idCategoriaComida);
-                if (categoriaComida == null) { throw new Exception("Categoria comida no encontrada"); }
-                _context.CategoriasComida.Remove(categoriaComida);
-                await _context.SaveChangesAsync();
+                await _productoMethods.EliminarCategoriaComida(idCategoriaComida);
                 return Ok("Categoria comida eliminada correctamente");
             }
             catch (Exception ex)
@@ -505,10 +415,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                CategoriaCombo? categoriaCombo = await _context.CategoriasCombo.FindAsync(idCategoriaCombo);
-                if (categoriaCombo == null) { throw new Exception("Categoria combo no encontrao"); }
-                _context.CategoriasCombo.Remove(categoriaCombo);
-                await _context.SaveChangesAsync();
+                await _productoMethods.EliminarCategoriaCombo(idCategoriaCombo);
                 return Ok("Categoria combo eliminada correctamente");
             }
             catch (Exception ex)
@@ -516,6 +423,5 @@ namespace api_restaurante_hamburguesas.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

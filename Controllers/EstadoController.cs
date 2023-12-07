@@ -1,8 +1,7 @@
-﻿using api_restaurante_hamburguesas.Models;
+﻿using api_restaurante_hamburguesas.Auxiliaries.ApiMethods;
+using api_restaurante_hamburguesas.Models;
 using API_restauranteHamburguesas.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api_restaurante_hamburguesas.Controllers
 {
@@ -11,10 +10,12 @@ namespace api_restaurante_hamburguesas.Controllers
     public class EstadoController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly EstadoMethods _estadoMethods;
 
         public EstadoController(ApplicationContext context)
         {
             _context = context;
+            _estadoMethods = new EstadoMethods(_context);
         }
 
         // GET: api/Estado
@@ -24,9 +25,7 @@ namespace api_restaurante_hamburguesas.Controllers
         {
             try
             {
-                Estado[] estadosUsuario = await _context.Estados.ToArrayAsync();
-                if (estadosUsuario.Length == 0) throw new Exception("Lista de estados de usuario vacía");
-                return Ok(estadosUsuario);
+                return Ok(await _estadoMethods.ObtenerEstados());
             }
             catch (Exception ex)
             {
@@ -39,21 +38,14 @@ namespace api_restaurante_hamburguesas.Controllers
         public async Task<ActionResult<Estado>>
             ObtenerEstado(int idEstado)
         {
-            try { return Ok(await BuscarEstado(idEstado)); }
+            try 
+            {
+                return Ok(await _estadoMethods.ObtenerEstado(idEstado)); 
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        private async Task<Estado>
-            BuscarEstado(int idEstado)
-        {
-            // Busca si el estado del usuario se encuentra en la base de datos
-            Estado? estado = await _context.Estados.FindAsync(idEstado);
-            if (estado == null)
-                throw new Exception("Estado no encontrado");
-            return estado;
         }
 
     }

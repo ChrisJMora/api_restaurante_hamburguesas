@@ -8,19 +8,19 @@ namespace api_restaurante_hamburguesas.Utils.Persona
         {
             new Cliente
             {
-                ClienteId = 1,
+                Id = 1,
                 Nombre = "Christian", Apellido = "Jácome",
                 FechaNacimiento = new DateTime(2003,9,29),
-                GeneroId = 1,
+                IdGenero = 1,
                 TelefonoCliente = "0992724743",
                 MailCliente = "chrisjMora@gmail.com"
             },
             new Cliente
             {
-                ClienteId = 2,
+                Id = 2,
                 Nombre = "Xavier", Apellido = "Jácome",
                 FechaNacimiento = new DateTime(2007,6,1),
-                GeneroId = 1,
+                IdGenero = 1,
                 TelefonoCliente = "0992755743",
                 MailCliente = "xavierjMora@gmail.com"
             }

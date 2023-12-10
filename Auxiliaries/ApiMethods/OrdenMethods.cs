@@ -9,10 +9,12 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
     public class OrdenMethods : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly CarritoMethods _carritoMethods;
 
         public OrdenMethods(ApplicationContext context)
         {
             _context = context;
+            _carritoMethods = new CarritoMethods(context);
         }
 
         public async Task<Orden>
@@ -21,6 +23,21 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             Orden? orden = await _context.Ordenes.FindAsync(idOrden);
             if (orden == null) throw new Exception("Orden no encontrada");
             return orden;
+        }
+
+        public async Task<int>
+            ObtenerNuevaOrden(int idCliente)
+        {
+            Orden[] ordenesCliente = await ObtenerOrdenesCliente(idCliente);
+
+            foreach (var orden in ordenesCliente)
+            {
+                if (!_carritoMethods.OrdenRgistrada(orden.Id))
+                {
+                    return orden.Id;
+                }
+            }
+            throw new Exception("No se encontró una nueva orden");
         }
 
         public async Task<Orden[]>
@@ -35,7 +52,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ObtenerOrdenesCliente(int idCliente)
         {
             Orden[] ordenes = await _context.Ordenes
-                .Where(b => b.ClienteId == idCliente)
+                .Where(b => b.IdCliente == idCliente)
                 .ToArrayAsync();
             if (ordenes.Length == 0) throw new Exception($"No hay ordenes asociadas al cliente con id: {idCliente}");
             return ordenes;
@@ -46,7 +63,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             Orden orden = new Orden()
             {
-                ClienteId = idCliente,
+                IdCliente = idCliente,
                 Fecha = new FechaHora().ObtenerFechaHoraLocal()
             };
             await _context.Ordenes.AddAsync(orden);

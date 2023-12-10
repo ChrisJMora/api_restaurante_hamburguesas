@@ -32,7 +32,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             Usuario? usuario =
                 await _context.Usuarios
-                .Where(b => b.NombreUsuario.Equals(nombreUsuario)).
+                .Where(b => b.Nombre.Equals(nombreUsuario)).
                 FirstOrDefaultAsync();
             if (usuario == null)
                 throw new Exception("Usuario no encontrado");
@@ -53,8 +53,8 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ObtenerUsuarios()
         {
             Usuario[] usuarios = await _context.Usuarios
-            .OrderBy(b => b.TipoUsuarioId)
-            .OrderBy(b => b.NombreUsuario)
+            .OrderBy(b => b.IdTipoUsuario)
+            .OrderBy(b => b.Nombre)
             .ToArrayAsync();
             if (usuarios.Length == 0) throw new Exception("Lista de usuarios vacía");
             return usuarios;
@@ -99,7 +99,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             TipoUsuario? tipoUsuario = await _context.TiposUsuario.FindAsync(idTipoUsuario);
             if (tipoUsuario == null)
-                throw new Exception("Nombre de usuario no encontrado");
+                throw new Exception("Etiqueta de usuario no encontrado");
             return tipoUsuario;
         }
 
@@ -108,9 +108,9 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             Usuario[]? usuarios =
             await _context.Usuarios
-            .Where(b => b.NombreUsuario.Contains(caracteres))
-            .OrderBy(b => b.TipoUsuarioId)
-            .OrderBy(b => b.NombreUsuario)
+            .Where(b => b.Nombre.Contains(caracteres))
+            .OrderBy(b => b.IdTipoUsuario)
+            .OrderBy(b => b.Nombre)
             .ToArrayAsync();
             if (usuarios == null)
                 throw new Exception("Usuarios no encontrados");
@@ -122,13 +122,13 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             VerificarCredenciales(nombreUsuario, password);
             Usuario usuario = await ObtenerUsuario(nombreUsuario);
-            if (!PasswordValida(usuario.SaltPassword, usuario.PasswordUsuario, password))
+            if (!PasswordValida(usuario.SaltPassword, usuario.Password, password))
                 throw new Exception("La contraseña es incorrecta");
-            if (usuario.EstadoUsuarioId == 2)
+            if (usuario.IdEstadoUsuario == 2)
                 throw new Exception("Usuario Deshabilitado");
-            if (usuario.TipoUsuarioId == 1)
+            if (usuario.IdTipoUsuario == 1)
                 throw new Exception("Acceso Denegado");
-            int? clienteId = usuario.ClienteId;
+            int? clienteId = usuario.IdCliente;
             if (clienteId == null)
                 throw new Exception($"No hay un cliente asociado al usuario: {nombreUsuario}");
             usuario.FechaAcceso = new FechaHora().ObtenerFechaHoraLocal();
@@ -141,11 +141,11 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             VerificarCredenciales(nombreUsuario, password);
             Usuario usuario = await ObtenerUsuario(nombreUsuario);
-            if (!PasswordValida(usuario.SaltPassword, usuario.PasswordUsuario, password))
+            if (!PasswordValida(usuario.SaltPassword, usuario.Password, password))
                 throw new Exception("La contraseña es incorrecta");
-            if (usuario.EstadoUsuarioId == 2)
+            if (usuario.IdEstadoUsuario == 2)
                 throw new Exception("Usuario Deshabilitado");
-            if (usuario.TipoUsuarioId == 2)
+            if (usuario.IdTipoUsuario == 2)
                 throw new Exception("Acceso denegado");
             usuario.FechaAcceso = new FechaHora().ObtenerFechaHoraLocal();
             await GuardarCambios();
@@ -184,9 +184,9 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarUsuario(string oldNombreUsuario, string nombreUsuario, string password, int estadoUsuario)
         {
             Usuario oldUsuario = await ObtenerUsuario(oldNombreUsuario);
-            oldUsuario.NombreUsuario = nombreUsuario;
+            oldUsuario.Nombre = nombreUsuario;
             oldUsuario.EncriptarPassword(password);
-            oldUsuario.EstadoUsuarioId = estadoUsuario;
+            oldUsuario.IdEstadoUsuario = estadoUsuario;
             await GuardarCambios();
         }
 
@@ -197,7 +197,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             cliente.Nombre = nuevoCliente.Nombre;
             cliente.Apellido = nuevoCliente.Apellido;
             cliente.FechaNacimiento = nuevoCliente.FechaNacimiento;
-            cliente.GeneroId = nuevoCliente.GeneroId;
+            cliente.IdGenero = nuevoCliente.IdGenero;
             await GuardarCambios();
         }
 
@@ -205,7 +205,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarEstadoUsuario(string nombreUsuario, int idEstado)
         {
             Usuario aHabilitar = await ObtenerUsuario(nombreUsuario);
-            aHabilitar.EstadoUsuarioId = idEstado;
+            aHabilitar.IdEstadoUsuario = idEstado;
             await GuardarCambios();
         }
 
@@ -268,12 +268,12 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             Usuario usuario = new Usuario()
             {
-                TipoUsuarioId = tipoUsuario,  
-                NombreUsuario = nombreUsuario,
+                IdTipoUsuario = tipoUsuario,  
+                Nombre = nombreUsuario,
                 FechaCreacion = new FechaHora().ObtenerFechaHoraLocal(),
                 FechaAcceso = new FechaHora().ObtenerFechaHoraLocal(),
-                EstadoUsuarioId = 1, // Habilitado
-                ClienteId = null,
+                IdEstadoUsuario = 1, // Habilitado
+                IdCliente = null,
             };
             usuario.EncriptarPassword(password);
             return usuario;

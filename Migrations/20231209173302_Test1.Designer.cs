@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api_restaurante_hamburguesas.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231206215740_Test3")]
-    partial class Test3
+    [Migration("20231209173302_Test1")]
+    partial class Test1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,98 +27,104 @@ namespace api_restaurante_hamburguesas.Migrations
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Estado", b =>
                 {
-                    b.Property<int>("EstadoUsuarioId")
+                    b.Property<int>("IdComboCarrito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_estado")
+                        .HasColumnName("idEstado")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstadoUsuarioId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Etiqueta")
                         .HasColumnType("varchar(13)")
-                        .HasColumnName("nombre_estado")
+                        .HasColumnName("etiquetaEstado")
                         .HasColumnOrder(2);
 
-                    b.HasKey("EstadoUsuarioId");
+                    b.HasKey("IdComboCarrito");
 
                     b.ToTable("Estados");
 
                     b.HasData(
                         new
                         {
-                            EstadoUsuarioId = 1,
-                            Nombre = "Habililtado"
+                            Id = 1,
+                            Etiqueta = "Habililtado"
                         },
                         new
                         {
-                            EstadoUsuarioId = 2,
-                            Nombre = "Deshabilitado"
+                            Id = 2,
+                            Etiqueta = "Deshabilitado"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.Orden", b =>
                 {
-                    b.Property<int>("OrdenId")
+                    b.Property<int>("IdComboCarrito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_orden");
+                        .HasColumnName("idOrden")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrdenId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
-                    b.Property<int>("ClienteId")
+                    b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("cliente_id_orden");
+                        .HasColumnName("idClienteOrden")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime")
-                        .HasColumnName("fecha_compra_orden");
+                        .HasColumnName("fechaOrden")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("OrdenId");
+                    b.HasKey("IdComboCarrito");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("Id");
 
                     b.ToTable("Ordenes");
 
                     b.HasData(
                         new
                         {
-                            OrdenId = 1,
+                            Id = 1,
                             ClienteId = 1,
-                            Fecha = new DateTime(2023, 12, 6, 16, 57, 40, 437, DateTimeKind.Local).AddTicks(733)
+                            Fecha = new DateTime(2023, 12, 9, 12, 33, 2, 27, DateTimeKind.Local).AddTicks(4048)
                         },
                         new
                         {
-                            OrdenId = 2,
+                            Id = 2,
                             ClienteId = 2,
-                            Fecha = new DateTime(2023, 12, 6, 16, 57, 40, 437, DateTimeKind.Local).AddTicks(749)
+                            Fecha = new DateTime(2023, 12, 9, 12, 33, 2, 27, DateTimeKind.Local).AddTicks(4083)
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.ProductoCarrito", b =>
                 {
-                    b.Property<int>("ProductoCarritoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_carrito");
+                        .HasColumnName("idCarrito")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoCarritoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("numeric(2,0)")
-                        .HasColumnName("id_cantidad_carrito");
+                        .HasColumnName("cantidad")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrdenId")
+                    b.Property<int>("IdOrden")
                         .HasColumnType("int")
-                        .HasColumnName("id_orden_carrito");
+                        .HasColumnName("idOrdenCarrito")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("ProductoCarritoId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("OrdenId");
+                    b.HasIndex("IdOrden");
 
                     b.ToTable("Carrito");
 
@@ -129,137 +135,139 @@ namespace api_restaurante_hamburguesas.Migrations
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.GeneroCliente", b =>
                 {
-                    b.Property<int>("GeneroId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_genero")
+                        .HasColumnName("idGenero")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GeneroId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Etiqueta")
                         .HasColumnType("varchar(9)")
-                        .HasColumnName("genero_cliente")
+                        .HasColumnName("etiquetaGenero")
                         .HasColumnOrder(2);
 
-                    b.HasKey("GeneroId");
+                    b.HasKey("Id");
 
                     b.ToTable("Generos");
 
                     b.HasData(
                         new
                         {
-                            GeneroId = 1,
-                            Genero = "Masculino"
+                            IdGenero = 1,
+                            Etiqueta = "Masculino"
                         },
                         new
                         {
-                            GeneroId = 2,
-                            Genero = "Femenino"
+                            IdGenero = 2,
+                            Etiqueta = "Femenino"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Catalogos.TipoUsuario", b =>
                 {
-                    b.Property<int>("TipoUsuarioId")
+                    b.Property<int>("IdComboCarrito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_tipo_usuario")
+                        .HasColumnName("idTipo")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoUsuarioId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Etiqueta")
                         .HasColumnType("varchar(13)")
-                        .HasColumnName("tipo_usuario")
+                        .HasColumnName("etiquetaTipo")
                         .HasColumnOrder(2);
 
-                    b.HasKey("TipoUsuarioId");
+                    b.HasKey("IdComboCarrito");
 
                     b.ToTable("TiposUsuario");
 
                     b.HasData(
                         new
                         {
-                            TipoUsuarioId = 1,
-                            Tipo = "Administrador"
+                            Id = 1,
+                            Etiqueta = "Administrador"
                         },
                         new
                         {
-                            TipoUsuarioId = 2,
-                            Tipo = "Cliente"
+                            Id = 2,
+                            Etiqueta = "Cliente"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Cliente", b =>
                 {
-                    b.Property<int>("ClienteId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_cliente")
+                        .HasColumnName("idCliente")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Apellido")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("apellido_cliente")
+                        .HasColumnName("apellido")
                         .HasColumnOrder(3);
 
                     b.Property<DateTime?>("FechaNacimiento")
                         .IsRequired()
                         .HasColumnType("date")
-                        .HasColumnName("fechaN_cliente")
+                        .HasColumnName("fechaNcliente")
                         .HasColumnOrder(4);
 
-                    b.Property<int>("GeneroId")
+                    b.Property<int>("Id")
                         .HasColumnType("int")
-                        .HasColumnName("id_genero_cliente")
+                        .HasColumnName("idGeneroCliente")
                         .HasColumnOrder(5);
 
                     b.Property<string>("MailCliente")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("mail_cliente");
+                        .HasColumnName("mail")
+                        .HasColumnOrder(7);
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("nombre_cliente")
+                        .HasColumnName("nombreCliente")
                         .HasColumnOrder(2);
 
                     b.Property<string>("TelefonoCliente")
                         .IsRequired()
                         .HasColumnType("varchar(12)")
-                        .HasColumnName("telefono_cliente");
+                        .HasColumnName("telefono")
+                        .HasColumnOrder(6);
 
-                    b.HasKey("ClienteId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("GeneroId");
+                    b.HasIndex("Id");
 
                     b.ToTable("Clientes", t =>
                         {
-                            t.HasCheckConstraint("CK_Genero", "[id_genero_cliente] = 1 OR [id_genero_cliente] = 2");
+                            t.HasCheckConstraint("CK_Genero", "[idGeneroCliente] = 1 OR [idGeneroCliente] = 2");
                         });
 
                     b.HasData(
                         new
                         {
-                            ClienteId = 1,
+                            IdCliente = 1,
                             Apellido = "Jácome",
                             FechaNacimiento = new DateTime(2003, 9, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneroId = 1,
+                            IdGenero = 1,
                             MailCliente = "chrisjMora@gmail.com",
                             Nombre = "Christian",
                             TelefonoCliente = "0992724743"
                         },
                         new
                         {
-                            ClienteId = 2,
+                            IdCliente = 2,
                             Apellido = "Jácome",
                             FechaNacimiento = new DateTime(2007, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneroId = 1,
+                            IdGenero = 1,
                             MailCliente = "xavierjMora@gmail.com",
                             Nombre = "Xavier",
                             TelefonoCliente = "0992755743"
@@ -268,222 +276,229 @@ namespace api_restaurante_hamburguesas.Migrations
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Usuario", b =>
                 {
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_usuario")
+                        .HasColumnName("idUsuario")
                         .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"));
-
-                    b.Property<int?>("ClienteId")
-                        .HasColumnType("int")
-                        .HasColumnName("id_cliente")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("EstadoUsuarioId")
-                        .HasColumnType("int")
-                        .HasColumnName("estado_usuario")
-                        .HasColumnOrder(8);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("FechaAcceso")
                         .IsRequired()
                         .HasColumnType("datetime")
-                        .HasColumnName("fecha_acceso")
+                        .HasColumnName("fechaAcceso")
                         .HasColumnOrder(7);
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime")
-                        .HasColumnName("fecha_creacion")
+                        .HasColumnName("fechaCreacion")
                         .HasColumnOrder(6);
 
-                    b.Property<string>("NombreUsuario")
+                    b.Property<int?>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("idCliente")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("IdEstadoUsuario")
+                        .HasColumnType("int")
+                        .HasColumnName("idEstadoUsuario")
+                        .HasColumnOrder(8);
+
+                    b.Property<int>("IdTipoUsuario")
+                        .HasColumnType("int")
+                        .HasColumnName("idTipoUsuario")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("nombre_usuario")
+                        .HasColumnName("nombreUsuario")
                         .HasColumnOrder(3);
 
-                    b.Property<string>("PasswordUsuario")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("password_usuario")
+                        .HasColumnName("password")
                         .HasColumnOrder(5);
 
                     b.Property<string>("SaltPassword")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("salt_password")
+                        .HasColumnName("saltPassword")
                         .HasColumnOrder(4);
 
-                    b.Property<int>("TipoUsuarioId")
-                        .HasColumnType("int")
-                        .HasColumnName("id_tipo_usuario")
-                        .HasColumnOrder(2);
+                    b.HasKey("Id");
 
-                    b.HasKey("UsuarioId");
+                    b.HasIndex("Id");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("IdEstadoUsuario");
 
-                    b.HasIndex("EstadoUsuarioId");
+                    b.HasIndex("IdTipoUsuario");
 
-                    b.HasIndex("NombreUsuario")
+                    b.HasIndex("Nombre")
                         .IsUnique();
-
-                    b.HasIndex("TipoUsuarioId");
 
                     b.ToTable("Usuarios");
 
                     b.HasData(
                         new
                         {
-                            UsuarioId = 1,
-                            EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3782),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3772),
-                            NombreUsuario = "admin",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEJpMyId+3d28n5UJtxoB+k4TXBfqyNC6kvApuJ7TUE+bhUzihBaih0V5+oesvmr6rw==",
-                            SaltPassword = "41EE35701EBAFCC29534BDE021B32C6B59DCF605518FF285F8B198D95CBA41F989E7C74913D4B7C71C6320FB0B409E292AEC24A80B5486AA3D8C202D5FFABAD3",
-                            TipoUsuarioId = 1
+                            IdUsuario = 1,
+                            FechaAcceso = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9246),
+                            FechaCreacion = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9237),
+                            IdEstadoUsuario = 1,
+                            IdTipoUsuario = 1,
+                            Nombre = "admin",
+                            Password = "AQAAAAIAAYagAAAAEMn1pwTkHKvqC6cBNqe0fHffYIfGbNcP4PB0ahFgoFeQZxzXkMRnsONBvWvi8iuPSA==",
+                            SaltPassword = "99C56A3A3DADD9A29072760459D9672582B8B010A3C4E793861AD86F370A7D4B521ED95A77A55E6C32D0FB5298D4CD33CB8FDEF5EE5FDE2D4CF4C67824754AF2"
                         },
                         new
                         {
-                            UsuarioId = 2,
-                            ClienteId = 1,
-                            EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3788),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3787),
-                            NombreUsuario = "chris2003",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEFdRaVakpVSureEsbz9oiTIvaNLRPdafxi9Lv7Oa3dMYi0gEEA1N6n7d4bSCLuD8ew==",
-                            SaltPassword = "7DEDCF052FE762424891F13925CF557ED30DB5F7FE65C6B42EFFD343410B95B7563D71CB507E3C3747026DE6C577D944C7B0704F777F71B8E3E7CF259C751E58",
-                            TipoUsuarioId = 2
+                            IdUsuario = 2,
+                            FechaAcceso = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9252),
+                            FechaCreacion = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9252),
+                            IdCliente = 1,
+                            IdEstadoUsuario = 1,
+                            IdTipoUsuario = 2,
+                            Nombre = "chris2003",
+                            Password = "AQAAAAIAAYagAAAAEGSERbHFzt/GljZkX14qPcCJv81+SOPGQ/PTDwWdUK61ZnssxDF95SAwtGiBynjvSg==",
+                            SaltPassword = "A913AEE3E5D5E10AA9D3BC6A15AABCF03C26D42B2B86E56F1E5EBA5BA08D21461C5A290442E4EC2ACC70D577A3617332AE051D497186046CECCE51B6B5F9F3BF"
                         },
                         new
                         {
-                            UsuarioId = 3,
-                            ClienteId = 2,
-                            EstadoUsuarioId = 1,
-                            FechaAcceso = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3790),
-                            FechaCreacion = new DateTime(2023, 12, 6, 16, 57, 40, 292, DateTimeKind.Local).AddTicks(3790),
-                            NombreUsuario = "xavier2007",
-                            PasswordUsuario = "AQAAAAIAAYagAAAAEKyqcqjwxegIwghjN+1FtF0kZ+2UrQNLJampPGGPoudzaKolG9RhdA8i/h2y/rDewQ==",
-                            SaltPassword = "3AA975EFD8E28975488397E4818B11CA5844CB1DF6490E2589F71AC2E93D9404786D48B2F159A9AA4EACA5E71C83E4AB5DA9C6E848248876858EB4AE3759EE25",
-                            TipoUsuarioId = 2
+                            IdUsuario = 3,
+                            FechaAcceso = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9254),
+                            FechaCreacion = new DateTime(2023, 12, 9, 12, 33, 1, 899, DateTimeKind.Local).AddTicks(9254),
+                            IdCliente = 2,
+                            IdEstadoUsuario = 1,
+                            IdTipoUsuario = 2,
+                            Nombre = "xavier2007",
+                            Password = "AQAAAAIAAYagAAAAEIVOh+vrmrl7lXuqQ4MgE+eGwbznBHLi4MRxpslrKhjJTVlv2yvCnPSqrc2Vwad6dQ==",
+                            SaltPassword = "E8D1A0131B01CC4B1B20CB44880BB927D8AFEBE1E1F3515049C374FDE966B277B7C85EDE2E83D6935D535388562D7952E82AE145769BCB807B80F2C9F8BA1FDF"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaCombo", b =>
                 {
-                    b.Property<int>("CategoriaIdCombo")
+                    b.Property<int>("IdComboCarrito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_categoria_combo");
+                        .HasColumnName("idCategoriaCombo")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriaIdCombo"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Etiqueta")
                         .IsRequired()
                         .HasColumnType("varchar(30)")
-                        .HasColumnName("nombre_categoria_combo");
+                        .HasColumnName("etiquetaCategoriaCombo")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("CategoriaIdCombo");
+                    b.HasKey("IdComboCarrito");
 
                     b.ToTable("CategoriasCombo");
 
                     b.HasData(
                         new
                         {
-                            CategoriaIdCombo = 1,
-                            Nombre = "ComboCarrito Familiar"
+                            Id = 1,
+                            Etiqueta = "ComboCarrito Familiar"
                         },
                         new
                         {
-                            CategoriaIdCombo = 2,
-                            Nombre = "ComboCarrito Individual"
+                            Id = 2,
+                            Etiqueta = "ComboCarrito Individual"
                         },
                         new
                         {
-                            CategoriaIdCombo = 3,
-                            Nombre = "ComboCarrito Infantil"
+                            Id = 3,
+                            Etiqueta = "ComboCarrito Infantil"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaComida", b =>
                 {
-                    b.Property<int>("CategoriaIdComida")
+                    b.Property<int>("IdComboCarrito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_categoria_comida");
+                        .HasColumnName("idCategoriaComida")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriaIdComida"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("Etiqueta")
                         .IsRequired()
                         .HasColumnType("varchar(30)")
-                        .HasColumnName("nombre_categoria_comida");
+                        .HasColumnName("etiquetaCategoriaComida")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("CategoriaIdComida");
+                    b.HasKey("IdComboCarrito");
 
                     b.ToTable("CategoriasComida");
 
                     b.HasData(
                         new
                         {
-                            CategoriaIdComida = 1,
-                            Nombre = "Hamburguesa"
+                            Id = 1,
+                            Etiqueta = "Hamburguesa"
                         },
                         new
                         {
-                            CategoriaIdComida = 2,
-                            Nombre = "Bebida"
+                            Id = 2,
+                            Etiqueta = "Bebida"
                         },
                         new
                         {
-                            CategoriaIdComida = 3,
-                            Nombre = "Complemento"
+                            Id = 3,
+                            Etiqueta = "Complemento"
                         },
                         new
                         {
-                            CategoriaIdComida = 4,
-                            Nombre = "Postre"
+                            Id = 4,
+                            Etiqueta = "Postre"
                         });
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Combo", b =>
                 {
-                    b.Property<int>("ProductoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id_producto");
+                        .HasColumnName("idProducto")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
-
-                    b.Property<int?>("CategoriaIdCombo")
-                        .HasColumnType("int")
-                        .HasColumnName("id_categoria_combo");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("descripcion_producto");
+                        .HasColumnName("descripcionProducto")
+                        .HasColumnOrder(3);
 
                     b.Property<decimal>("Descuento")
                         .HasColumnType("decimal(1,1)")
-                        .HasColumnName("descuento_combo");
+                        .HasColumnName("descuento");
 
-                    b.Property<int>("EstadoComboId")
+                    b.Property<int?>("IdCategoriaCombo")
                         .HasColumnType("int")
-                        .HasColumnName("estado_combo");
+                        .HasColumnName("idCategoriaCombo");
+
+                    b.Property<int>("IdEstadoCombo")
+                        .HasColumnType("int")
+                        .HasColumnName("idEstadoCombo");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("varchar(30)")
-                        .HasColumnName("nombre_producto");
+                        .HasColumnName("nombreProducto")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("ProductoId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CategoriaIdCombo");
+                    b.HasIndex("IdCategoriaCombo");
 
-                    b.HasIndex("EstadoComboId");
+                    b.HasIndex("IdEstadoCombo");
 
                     b.ToTable("Combos");
 
@@ -491,56 +506,176 @@ namespace api_restaurante_hamburguesas.Migrations
                         new
                         {
                             ProductoId = 1,
-                            CategoriaIdCombo = 2,
                             Descripcion = "El combo clásico incluye una hamburguesa con queso,\r\nacompañada por papas fritas y una bebida refrescante.",
                             Descuento = 0.3m,
-                            EstadoComboId = 1,
+                            IdCategoriaCombo = 2,
+                            IdEstadoCombo = 1,
                             Nombre = "ComboCarrito Clásico"
                         },
                         new
                         {
                             ProductoId = 2,
-                            CategoriaIdCombo = 1,
                             Descripcion = "El Combo \"Para Todos\" ofrece hamburguesas individuales\r\nvariadas con nachos cubiertos de sabores intensos,\r\npapas fritas especiales y una jarra grande de bebidas refrescantes.\r\n¡Ideal para satisfacer los gustos de todos en el grupo!",
                             Descuento = 0.2m,
-                            EstadoComboId = 1,
+                            IdCategoriaCombo = 1,
+                            IdEstadoCombo = 1,
                             Nombre = "ComboCarrito Para Todos"
                         },
                         new
                         {
                             ProductoId = 3,
-                            CategoriaIdCombo = 3,
                             Descripcion = "El Combo \"Mini Burguer\" ofrece una hamburguesa pequeña\r\ncon queso y vegetales, acompañada de papas fritas y\r\nuna bebida refrescante, perfecto para los más pequeños.",
                             Descuento = 0.1m,
-                            EstadoComboId = 1,
+                            IdCategoriaCombo = 3,
+                            IdEstadoCombo = 1,
                             Nombre = "ComboCarrito Mini Burguer"
                         });
                 });
 
-            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.ComboComida", b =>
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Comida", b =>
                 {
-                    b.Property<int>("ComboComidaId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("combo_comida_id");
+                        .HasColumnName("idProducto")
+                        .HasColumnOrder(1);
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComboComidaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("descripcionProducto")
+                        .HasColumnOrder(3);
+
+                    b.Property<int?>("IdCategoriaComida")
+                        .HasColumnType("int")
+                        .HasColumnName("idCategoriaComida");
+
+                    b.Property<int>("IdEstadoComida")
+                        .HasColumnType("int")
+                        .HasColumnName("idEstadoComida");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("nombreProducto")
+                        .HasColumnOrder(2);
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(2,1)")
+                        .HasColumnName("precio");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCategoriaComida");
+
+                    b.HasIndex("IdEstadoComida");
+
+                    b.ToTable("Comidas");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductoId = 1,
+                            Descripcion = "Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.",
+                            IdCategoriaComida = 1,
+                            IdEstadoComida = 1,
+                            Nombre = "Hamburguesa Clásica",
+                            Precio = 5.5m
+                        },
+                        new
+                        {
+                            ProductoId = 2,
+                            Descripcion = "Doble carne con queso, tocino, lechuga, tomate y aderezos.",
+                            IdCategoriaComida = 1,
+                            IdEstadoComida = 1,
+                            Nombre = "Hamburguesa Doble",
+                            Precio = 7.5m
+                        },
+                        new
+                        {
+                            ProductoId = 3,
+                            Descripcion = "Una hamburguesa más pequeña con queso y vegetales básicos.",
+                            IdCategoriaComida = 1,
+                            IdEstadoComida = 1,
+                            Nombre = "Mini Hamburguesa Sencilla",
+                            Precio = 3.5m
+                        },
+                        new
+                        {
+                            ProductoId = 4,
+                            Descripcion = "Papas fritas grandes",
+                            IdCategoriaComida = 3,
+                            IdEstadoComida = 1,
+                            Nombre = "Papas Fritas Grandes",
+                            Precio = 2.5m
+                        },
+                        new
+                        {
+                            ProductoId = 5,
+                            Descripcion = "Papas fritas pequeñas",
+                            IdCategoriaComida = 3,
+                            IdEstadoComida = 1,
+                            Nombre = "Papas Fritas Pequeñas",
+                            Precio = 1.5m
+                        },
+                        new
+                        {
+                            ProductoId = 6,
+                            Descripcion = "Coca Cola personal de 500 ml",
+                            IdCategoriaComida = 2,
+                            IdEstadoComida = 1,
+                            Nombre = "Coca Cola (500ml)",
+                            Precio = 2.5m
+                        },
+                        new
+                        {
+                            ProductoId = 7,
+                            Descripcion = "Helado de vainilla",
+                            IdCategoriaComida = 4,
+                            IdEstadoComida = 1,
+                            Nombre = "Helado de Vainilla",
+                            Precio = 1.5m
+                        },
+                        new
+                        {
+                            ProductoId = 8,
+                            Descripcion = "Helado de chocalate",
+                            IdCategoriaComida = 4,
+                            IdEstadoComida = 1,
+                            Nombre = "Helado de Chocolate",
+                            Precio = 1.5m
+                        });
+                });
+
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.ComidaCombo", b =>
+                {
+                    b.Property<int>("IdComboCarrito")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("idComidaCombo");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdComboCarrito"));
 
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("numeric(1,0)")
-                        .HasColumnName("cantidad_combo_comida");
+                        .HasColumnName("cantidadComidaCombo")
+                        .HasColumnOrder(3);
 
-                    b.Property<int>("IdCombo")
+                    b.Property<int>("IdComboCarrito")
                         .HasColumnType("int")
-                        .HasColumnName("id_combo");
+                        .HasColumnName("idCombo")
+                        .HasColumnOrder(1);
 
                     b.Property<int>("IdComida")
                         .HasColumnType("int")
-                        .HasColumnName("id_comida");
+                        .HasColumnName("idComida")
+                        .HasColumnOrder(2);
 
-                    b.HasKey("ComboComidaId");
+                    b.HasKey("IdComboCarrito");
 
-                    b.HasIndex("IdCombo");
+                    b.HasIndex("IdComboCarrito");
 
                     b.HasIndex("IdComida");
 
@@ -549,236 +684,122 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.HasData(
                         new
                         {
-                            ComboComidaId = 1,
+                            Id = 1,
                             Cantidad = 1m,
                             IdCombo = 1,
                             IdComida = 1
                         },
                         new
                         {
-                            ComboComidaId = 2,
+                            Id = 2,
                             Cantidad = 1m,
                             IdCombo = 1,
                             IdComida = 4
                         },
                         new
                         {
-                            ComboComidaId = 3,
+                            Id = 3,
                             Cantidad = 3m,
                             IdCombo = 1,
                             IdComida = 5
                         },
                         new
                         {
-                            ComboComidaId = 4,
+                            Id = 4,
                             Cantidad = 1m,
                             IdCombo = 1,
                             IdComida = 6
                         },
                         new
                         {
-                            ComboComidaId = 5,
+                            Id = 5,
                             Cantidad = 1m,
                             IdCombo = 1,
                             IdComida = 7
                         },
                         new
                         {
-                            ComboComidaId = 6,
+                            Id = 6,
                             Cantidad = 1m,
                             IdCombo = 1,
                             IdComida = 8
                         },
                         new
                         {
-                            ComboComidaId = 7,
+                            Id = 7,
                             Cantidad = 3m,
                             IdCombo = 2,
                             IdComida = 2
                         },
                         new
                         {
-                            ComboComidaId = 8,
+                            Id = 8,
                             Cantidad = 3m,
                             IdCombo = 2,
                             IdComida = 4
                         },
                         new
                         {
-                            ComboComidaId = 9,
+                            Id = 9,
                             Cantidad = 6m,
                             IdCombo = 2,
                             IdComida = 5
                         },
                         new
                         {
-                            ComboComidaId = 10,
+                            Id = 10,
                             Cantidad = 3m,
                             IdCombo = 2,
                             IdComida = 6
                         },
                         new
                         {
-                            ComboComidaId = 11,
+                            Id = 11,
                             Cantidad = 2m,
                             IdCombo = 2,
                             IdComida = 7
                         },
                         new
                         {
-                            ComboComidaId = 12,
+                            Id = 12,
                             Cantidad = 2m,
                             IdCombo = 2,
                             IdComida = 8
                         },
                         new
                         {
-                            ComboComidaId = 13,
+                            Id = 13,
                             Cantidad = 1m,
                             IdCombo = 3,
                             IdComida = 3
                         },
                         new
                         {
-                            ComboComidaId = 14,
+                            Id = 14,
                             Cantidad = 1m,
                             IdCombo = 3,
                             IdComida = 5
                         },
                         new
                         {
-                            ComboComidaId = 15,
+                            Id = 15,
                             Cantidad = 1m,
                             IdCombo = 3,
                             IdComida = 6
                         },
                         new
                         {
-                            ComboComidaId = 16,
+                            Id = 16,
                             Cantidad = 1m,
                             IdCombo = 3,
                             IdComida = 7
                         },
                         new
                         {
-                            ComboComidaId = 17,
+                            Id = 17,
                             Cantidad = 1m,
                             IdCombo = 3,
                             IdComida = 8
-                        });
-                });
-
-            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Comida", b =>
-                {
-                    b.Property<int>("ProductoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id_producto");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"));
-
-                    b.Property<int?>("CategoriaIdComida")
-                        .HasColumnType("int")
-                        .HasColumnName("id_categoria_comida");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("descripcion_producto");
-
-                    b.Property<int>("EstadoComidaId")
-                        .HasColumnType("int")
-                        .HasColumnName("estado_comida");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("nombre_producto");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(2,1)")
-                        .HasColumnName("precio_comida");
-
-                    b.HasKey("ProductoId");
-
-                    b.HasIndex("CategoriaIdComida");
-
-                    b.HasIndex("EstadoComidaId");
-
-                    b.ToTable("Comidas");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductoId = 1,
-                            CategoriaIdComida = 1,
-                            Descripcion = "Una hamburguesa con queso, lechuga, tomate, cebolla y salsa especial.",
-                            EstadoComidaId = 1,
-                            Nombre = "Hamburguesa Clásica",
-                            Precio = 5.5m
-                        },
-                        new
-                        {
-                            ProductoId = 2,
-                            CategoriaIdComida = 1,
-                            Descripcion = "Doble carne con queso, tocino, lechuga, tomate y aderezos.",
-                            EstadoComidaId = 1,
-                            Nombre = "Hamburguesa Doble",
-                            Precio = 7.5m
-                        },
-                        new
-                        {
-                            ProductoId = 3,
-                            CategoriaIdComida = 1,
-                            Descripcion = "Una hamburguesa más pequeña con queso y vegetales básicos.",
-                            EstadoComidaId = 1,
-                            Nombre = "Mini Hamburguesa Sencilla",
-                            Precio = 3.5m
-                        },
-                        new
-                        {
-                            ProductoId = 4,
-                            CategoriaIdComida = 3,
-                            Descripcion = "Papas fritas grandes",
-                            EstadoComidaId = 1,
-                            Nombre = "Papas Fritas Grandes",
-                            Precio = 2.5m
-                        },
-                        new
-                        {
-                            ProductoId = 5,
-                            CategoriaIdComida = 3,
-                            Descripcion = "Papas fritas pequeñas",
-                            EstadoComidaId = 1,
-                            Nombre = "Papas Fritas Pequeñas",
-                            Precio = 1.5m
-                        },
-                        new
-                        {
-                            ProductoId = 6,
-                            CategoriaIdComida = 2,
-                            Descripcion = "Coca Cola personal de 500 ml",
-                            EstadoComidaId = 1,
-                            Nombre = "Coca Cola (500ml)",
-                            Precio = 2.5m
-                        },
-                        new
-                        {
-                            ProductoId = 7,
-                            CategoriaIdComida = 4,
-                            Descripcion = "Helado de vainilla",
-                            EstadoComidaId = 1,
-                            Nombre = "Helado de Vainilla",
-                            Precio = 1.5m
-                        },
-                        new
-                        {
-                            ProductoId = 8,
-                            CategoriaIdComida = 4,
-                            Descripcion = "Helado de chocalate",
-                            EstadoComidaId = 1,
-                            Nombre = "Helado de Chocolate",
-                            Precio = 1.5m
                         });
                 });
 
@@ -810,35 +831,35 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.HasBaseType("api_restaurante_hamburguesas.Models.Orden.ProductoCarrito");
 
-                    b.Property<int>("ComboId")
+                    b.Property<int>("IdComboCarrito")
                         .HasColumnType("int")
-                        .HasColumnName("id_combo_combo_carrito");
+                        .HasColumnName("idCombo");
 
-                    b.HasIndex("ComboId");
+                    b.HasIndex("IdComboCarrito");
 
                     b.HasDiscriminator().HasValue("ComboCarrito");
 
                     b.HasData(
                         new
                         {
-                            ProductoCarritoId = 1,
+                            IdCarrito = 1,
                             Cantidad = 3m,
-                            OrdenId = 1,
-                            ComboId = 1
+                            IdOrden = 1,
+                            IdCombo = 1
                         },
                         new
                         {
-                            ProductoCarritoId = 2,
+                            IdCarrito = 2,
                             Cantidad = 2m,
-                            OrdenId = 1,
-                            ComboId = 1
+                            IdOrden = 1,
+                            IdCombo = 1
                         },
                         new
                         {
-                            ProductoCarritoId = 3,
+                            IdCarrito = 3,
                             Cantidad = 1m,
-                            OrdenId = 2,
-                            ComboId = 3
+                            IdOrden = 2,
+                            IdCombo = 3
                         });
                 });
 
@@ -846,130 +867,130 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.HasBaseType("api_restaurante_hamburguesas.Models.Orden.ProductoCarrito");
 
-                    b.Property<int?>("ComboCarritoId")
+                    b.Property<int?>("IdComboCarrito")
                         .HasColumnType("int")
-                        .HasColumnName("id_combo_comida_carrito)");
+                        .HasColumnName("idComboCarrito");
 
-                    b.Property<int>("ComidaId")
+                    b.Property<int>("IdComida")
                         .HasColumnType("int")
-                        .HasColumnName("id_comida_comida_carrito");
+                        .HasColumnName("idComida");
 
-                    b.HasIndex("ComboCarritoId");
+                    b.HasIndex("IdComboCarrito");
 
-                    b.HasIndex("ComidaId");
+                    b.HasIndex("IdComida");
 
                     b.HasDiscriminator().HasValue("ComidaCarrito");
 
                     b.HasData(
                         new
                         {
-                            ProductoCarritoId = 4,
+                            IdCarrito = 4,
                             Cantidad = 3m,
-                            OrdenId = 1,
-                            ComboCarritoId = 1,
-                            ComidaId = 1
+                            IdOrden = 1,
+                            IdComboCarrito = 1,
+                            IdComida = 2
                         },
                         new
                         {
-                            ProductoCarritoId = 5,
+                            IdCarrito = 5,
                             Cantidad = 5m,
-                            OrdenId = 1,
-                            ComboCarritoId = 1,
-                            ComidaId = 5
+                            IdOrden = 1,
+                            IdComboCarrito = 1,
+                            IdComida = 5
                         },
                         new
                         {
-                            ProductoCarritoId = 6,
+                            IdCarrito = 6,
                             Cantidad = 5m,
-                            OrdenId = 1,
-                            ComboCarritoId = 1,
-                            ComidaId = 6
+                            IdOrden = 1,
+                            IdComboCarrito = 1,
+                            IdComida = 6
                         },
                         new
                         {
-                            ProductoCarritoId = 7,
+                            IdCarrito = 7,
                             Cantidad = 2m,
-                            OrdenId = 1,
-                            ComboCarritoId = 1,
-                            ComidaId = 7
+                            IdOrden = 1,
+                            IdComboCarrito = 1,
+                            IdComida = 7
                         },
                         new
                         {
-                            ProductoCarritoId = 8,
+                            IdCarrito = 8,
                             Cantidad = 2m,
-                            OrdenId = 1,
-                            ComboCarritoId = 2,
-                            ComidaId = 1
+                            IdOrden = 1,
+                            IdComboCarrito = 2,
+                            IdComida = 1
                         },
                         new
                         {
-                            ProductoCarritoId = 9,
+                            IdCarrito = 9,
                             Cantidad = 3m,
-                            OrdenId = 1,
-                            ComboCarritoId = 2,
-                            ComidaId = 4
+                            IdOrden = 1,
+                            IdComboCarrito = 2,
+                            IdComida = 4
                         },
                         new
                         {
-                            ProductoCarritoId = 10,
+                            IdCarrito = 10,
                             Cantidad = 3m,
-                            OrdenId = 1,
-                            ComboCarritoId = 2,
-                            ComidaId = 6
+                            IdOrden = 1,
+                            IdComboCarrito = 2,
+                            IdComida = 6
                         },
                         new
                         {
-                            ProductoCarritoId = 11,
+                            IdCarrito = 11,
                             Cantidad = 1m,
-                            OrdenId = 1,
-                            ComboCarritoId = 2,
-                            ComidaId = 8
+                            IdOrden = 1,
+                            IdComboCarrito = 2,
+                            IdComida = 8
                         },
                         new
                         {
-                            ProductoCarritoId = 13,
+                            IdCarrito = 13,
                             Cantidad = 1m,
-                            OrdenId = 2,
-                            ComboCarritoId = 3,
-                            ComidaId = 3
+                            IdOrden = 2,
+                            IdComboCarrito = 3,
+                            IdComida = 3
                         },
                         new
                         {
-                            ProductoCarritoId = 14,
+                            IdCarrito = 14,
                             Cantidad = 3m,
-                            OrdenId = 2,
-                            ComboCarritoId = 3,
-                            ComidaId = 5
+                            IdOrden = 2,
+                            IdComboCarrito = 3,
+                            IdComida = 5
                         },
                         new
                         {
-                            ProductoCarritoId = 15,
+                            IdCarrito = 15,
                             Cantidad = 3m,
-                            OrdenId = 2,
-                            ComboCarritoId = 3,
-                            ComidaId = 6
+                            IdOrden = 2,
+                            IdComboCarrito = 3,
+                            IdComida = 6
                         },
                         new
                         {
-                            ProductoCarritoId = 16,
+                            IdCarrito = 16,
                             Cantidad = 3m,
-                            OrdenId = 2,
-                            ComboCarritoId = 3,
-                            ComidaId = 7
+                            IdOrden = 2,
+                            IdComboCarrito = 3,
+                            IdComida = 7
                         },
                         new
                         {
-                            ProductoCarritoId = 17,
+                            IdCarrito = 17,
                             Cantidad = 4m,
-                            OrdenId = 2,
-                            ComidaId = 2
+                            IdOrden = 2,
+                            IdComida = 2
                         },
                         new
                         {
-                            ProductoCarritoId = 18,
+                            IdCarrito = 18,
                             Cantidad = 2m,
-                            OrdenId = 2,
-                            ComidaId = 6
+                            IdOrden = 2,
+                            IdComida = 6
                         });
                 });
 
@@ -977,7 +998,7 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Persona.Cliente", "Cliente")
                         .WithOne("Orden")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.Orden", "ClienteId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.Orden", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -988,7 +1009,7 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Orden.Orden", "Orden")
                         .WithOne("Carrito")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ProductoCarrito", "OrdenId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ProductoCarrito", "IdOrden")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -997,30 +1018,30 @@ namespace api_restaurante_hamburguesas.Migrations
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Cliente", b =>
                 {
-                    b.HasOne("api_restaurante_hamburguesas.Models.Persona.Catalogos.GeneroCliente", "Nombre")
+                    b.HasOne("api_restaurante_hamburguesas.Models.Persona.Catalogos.GeneroCliente", "Genero")
                         .WithOne("Cliente")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Cliente", "GeneroId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Cliente", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Nombre");
+                    b.Navigation("Genero");
                 });
 
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Persona.Usuario", b =>
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Persona.Cliente", "Cliente")
                         .WithOne("Usuario")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "ClienteId");
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "Id");
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoUsuario")
                         .WithOne("Usuario")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "EstadoUsuarioId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "IdEstadoUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Persona.Catalogos.TipoUsuario", "TipoUsuario")
                         .WithOne("Usuario")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "TipoUsuarioId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Persona.Usuario", "IdTipoUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1035,12 +1056,12 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaCombo", "CategoriaCombo")
                         .WithOne("Combo")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "CategoriaIdCombo")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "IdCategoriaCombo")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoCombo")
                         .WithOne("Combo")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "EstadoComboId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Combo", "IdEstadoCombo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1049,35 +1070,16 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.Navigation("EstadoCombo");
                 });
 
-            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.ComboComida", b =>
-                {
-                    b.HasOne("api_restaurante_hamburguesas.Models.Productos.Combo", "Combo")
-                        .WithOne("ComboComida")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.ComboComida", "IdCombo")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("api_restaurante_hamburguesas.Models.Productos.Comida", "Comida")
-                        .WithOne("ComboComida")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.ComboComida", "IdComida")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Combo");
-
-                    b.Navigation("Comida");
-                });
-
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.Comida", b =>
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Catalogos.CategoriaComida", "CategoriaComida")
                         .WithOne("Comida")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "CategoriaIdComida")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "IdCategoriaComida")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Estado", "EstadoComida")
                         .WithOne("Comida")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "EstadoComidaId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.Comida", "IdEstadoComida")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1086,11 +1088,30 @@ namespace api_restaurante_hamburguesas.Migrations
                     b.Navigation("EstadoComida");
                 });
 
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Productos.ComidaCombo", b =>
+                {
+                    b.HasOne("api_restaurante_hamburguesas.Models.Productos.Combo", "Combo")
+                        .WithOne("ComboComida")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.ComidaCombo", "IdComboCarrito")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api_restaurante_hamburguesas.Models.Productos.Comida", "Comida")
+                        .WithOne("ComboComida")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Productos.ComidaCombo", "IdComida")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Combo");
+
+                    b.Navigation("Comida");
+                });
+
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", b =>
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Combo", "Combo")
                         .WithOne("ComboCarrito")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", "ComboId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", "IdComboCarrito")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -1100,12 +1121,13 @@ namespace api_restaurante_hamburguesas.Migrations
             modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.ComidaCarrito", b =>
                 {
                     b.HasOne("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", "ComboCarrito")
-                        .WithMany()
-                        .HasForeignKey("ComboCarritoId");
+                        .WithOne("ComidaCarrito")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ComidaCarrito", "IdComboCarrito")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("api_restaurante_hamburguesas.Models.Productos.Comida", "Comida")
                         .WithOne("ComidaCarrito")
-                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ComidaCarrito", "ComidaId")
+                        .HasForeignKey("api_restaurante_hamburguesas.Models.Orden.ComidaCarrito", "IdComida")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -1166,6 +1188,11 @@ namespace api_restaurante_hamburguesas.Migrations
                 {
                     b.Navigation("ComboComida");
 
+                    b.Navigation("ComidaCarrito");
+                });
+
+            modelBuilder.Entity("api_restaurante_hamburguesas.Models.Orden.ComboCarrito", b =>
+                {
                     b.Navigation("ComidaCarrito");
                 });
 #pragma warning restore 612, 618

@@ -6,11 +6,11 @@ namespace api_restaurante_hamburguesas.Models.Persona.Catalogos
 {
     public class GeneroCliente
     {
-        [Column("id_genero", Order = 1)]
+        [Column("idGenero", Order = 1)]
         [Key]
-        public int GeneroId { get; set; }
-        [Column("genero_cliente", Order = 2)]
-        public string? Nombre { get; set; }
+        public int Id { get; set; }
+        [Column("etiquetaGenero", Order = 2)]
+        public required string Etiqueta { get; set; }
         [JsonIgnore]
         public Cliente? Cliente { get; set; }
     }

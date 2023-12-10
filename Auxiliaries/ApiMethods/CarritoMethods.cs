@@ -25,6 +25,16 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             return producto;
         }
 
+        public bool
+            OrdenRgistrada(int idOrden)
+        {
+            ProductoCarrito[] productos =
+                _context.Carrito
+                .Where(b => b.IdOrden == idOrden)
+                .ToArray();
+            return productos.Length > 0;
+        }
+
         public async Task<ComidaCarrito>
             ObtenerComidaCarrito(int idComidaCarrito)
         {
@@ -49,10 +59,10 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ObtenerComidas(int idOrden)
         {
             ComidaCarrito[] comidas = await _context.Carrito
-                    .Where(b => b.OrdenId == idOrden)
+                    .Where(b => b.IdOrden == idOrden)
                     .Where(b => b is ComidaCarrito)
                     .Cast<ComidaCarrito>()
-                    .Where(b => b.ComboCarritoId == null)
+                    .Where(b => b.IdComboCarrito == null)
                     .ToArrayAsync();
             return comidas;
         }
@@ -62,10 +72,10 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             ComidaCarrito? comida =
                 await _context.Carrito
-                .Where(b => b.OrdenId == idOrden)
+                .Where(b => b.IdOrden == idOrden)
                 .Where(b => b is ComidaCarrito)
                 .Cast<ComidaCarrito>()
-                .Where(b => b.ComidaId == idComida)
+                .Where(b => b.IdComida == idComida)
                 .FirstOrDefaultAsync();
             return comida;
         }
@@ -74,7 +84,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ObtenerCombos(int idOrden)
         {
             ComboCarrito[] combos = await _context.Carrito
-                    .Where(b => b.OrdenId == idOrden)
+                    .Where(b => b.IdOrden == idOrden)
                     .Where(b => b is ComboCarrito)
                     .Cast<ComboCarrito>()
                     .ToArrayAsync();
@@ -87,7 +97,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ComidaCarrito[] comidas = await _context.Carrito
                     .Where(b => b is ComidaCarrito)
                     .Cast<ComidaCarrito>()
-                    .Where(b => b.ComboCarritoId == idComboCarrito)
+                    .Where(b => b.IdComboCarrito == idComboCarrito)
                     .ToArrayAsync();
             return comidas;
         }
@@ -96,32 +106,25 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             CalcularTotalCombo(int idComboCarrito)
         {
             ComboCarrito comboCarrito = await ObtenerComboCarrito(idComboCarrito);
-            Combo combo = await _productoMethods.ObtenerCombo(comboCarrito.ComboId);
-            ProductoCarrito[] comidas = await ObtenerComidasCombo(idComboCarrito);
+            Combo combo = await _productoMethods.ObtenerCombo(comboCarrito.IdCombo);
+            ComidaCarrito[] comidas = await ObtenerComidasCombo(idComboCarrito);
             double total = 0;
-            foreach (ComidaCarrito comidaCarrito in comidas)
+            foreach (var comidaCarrito in comidas)
             {
-                Comida comida = await _productoMethods.ObtenerComida(comidaCarrito.ComidaId);
+                Comida comida = await _productoMethods.ObtenerComida(comidaCarrito.IdComida);
                 total += comida.Precio * comidaCarrito.Cantidad;
             }
-            total = total - total * combo.Descuento;
             return total;
         }
 
         public async Task<double>
-            CalcularTotalOrden(int idOrden)
+            CalcularTotalComidas(int idOrden)
         {
             double total = 0;
-            ComboCarrito[] combosCarrito = await ObtenerCombos(idOrden);
             ComidaCarrito[] comidasCarrito = await ObtenerComidas(idOrden);
-            foreach (var comboCarrito in combosCarrito)
-            {
-                double totalCombo = await CalcularTotalCombo(comboCarrito.ProductoCarritoId);
-                total += totalCombo;
-            }
             foreach (var comidaCarrito in comidasCarrito)
             {
-                Comida comida = await _productoMethods.ObtenerComida(comidaCarrito.ComidaId);
+                Comida comida = await _productoMethods.ObtenerComida(comidaCarrito.IdComida);
                 total += comida.Precio * comidaCarrito.Cantidad;
             }
             return total;
@@ -141,15 +144,15 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             ComidaCarrito nuevaComida = new ComidaCarrito()
             {
-                OrdenId = idOrden,
-                ComidaId = idComida,
+                IdOrden = idOrden,
+                IdComida = idComida,
                 Cantidad = cantidad,
             };
             // COMIDA REPETIDA?
             ComidaCarrito? comida = await ObtenerComidaCarrito(idOrden, idComida);
             if (comida != null)
             {
-                await ModificarCantidad(comida.ProductoCarritoId, cantidad);
+                await ModificarCantidad(comida.IdComida, cantidad);
             }
             else
             {
@@ -165,17 +168,17 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             ComboCarrito? combo =
                 await _context.Carrito
-                .Where(b => b.OrdenId == idOrden)
+                .Where(b => b.IdOrden == idOrden)
                 .Where(b => b is ComboCarrito)
                 .Cast<ComboCarrito>()
-                .Where(b => b.ComboId == idCombo)
+                .Where(b => b.IdCombo == idCombo)
                 .FirstOrDefaultAsync();
             if (combo == null) 
                 return -1;
-            ComidaCarrito[] comidasCarrito = await ObtenerComidasCombo(combo.ProductoCarritoId);
+            ComidaCarrito[] comidasCarrito = await ObtenerComidasCombo(combo.IdCombo);
             if (!comidasCarrito.SequenceEqual(nuevasComidasCarrito)) 
                 return -1;
-            return combo.ProductoCarritoId;
+            return combo.IdCombo;
         }
 
         public async Task
@@ -183,8 +186,8 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         {
             ComboCarrito nuevoCombo = new ComboCarrito()
             {
-                OrdenId = idOrden,
-                ComboId = idCombo,
+                IdOrden = idOrden,
+                IdCombo = idCombo,
                 Cantidad = cantidad,
             };
 
@@ -192,12 +195,12 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
 
             foreach (var idComida in idComidas)
             {
-                ComboComida comboComida = await _productoMethods.ObtenerComidaCombo(idCombo, idComida);
+                ComidaCombo comboComida = await _productoMethods.ObtenerComidaCombo(idCombo, idComida);
                 comidas.Add(new ComidaCarrito()
                 {
                     ComboCarrito = nuevoCombo,
-                    OrdenId = idOrden,
-                    ComidaId = idComida,
+                    IdOrden = idOrden,
+                    IdComida = idComida,
                     Cantidad = comboComida.Cantidad,
                 });
             }

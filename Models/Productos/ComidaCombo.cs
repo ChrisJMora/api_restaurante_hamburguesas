@@ -5,24 +5,19 @@ using System.Text.Json.Serialization;
 
 namespace api_restaurante_hamburguesas.Models.Productos
 {
-    public class ComboComida
+    public class ComidaCombo
     {
-        [Column("combo_comida_id")]
+        [Column("idComidaCombo")]
         [Key]
-        public int ComboComidaId { get; set; }
-
-        [Column("id_combo")]
-        public int IdCombo { get; set; }
-
-        [Column("id_comida")]
-        public int IdComida { get; set; }
-
-        [Column("cantidad_combo_comida")]
-        public int Cantidad { get; set; }
-
+        public int Id { get; set; }
+        [Column("idCombo", Order = 1)]
+        public required int IdCombo { get; set; }
+        [Column("idComida", Order = 2)]
+        public required int IdComida { get; set; }
+        [Column("cantidadComidaCombo", Order = 3)]
+        public required int Cantidad { get; set; }
         [JsonIgnore]
         public Combo? Combo { get; set; }
-
         [JsonIgnore]
         public Comida? Comida { get; set; }
     }

@@ -6,8 +6,8 @@ namespace api_restaurante_hamburguesas.Utils.Persona.Catalogos
     {
         public List<GeneroCliente> generos = new List<GeneroCliente>()
         {
-            new GeneroCliente { GeneroId = 1, Nombre = "Masculino" },
-            new GeneroCliente { GeneroId = 2, Nombre = "Femenino" }
+            new GeneroCliente { Id = 1, Etiqueta = "Masculino" },
+            new GeneroCliente { Id = 2, Etiqueta = "Femenino" }
         };
 
     }

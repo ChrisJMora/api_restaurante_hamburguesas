@@ -6,10 +6,10 @@ namespace api_restaurante_hamburguesas.Utils.Productos.Catalogos
     {
         public List<CategoriaComida> categoriasComida = new List<CategoriaComida>()
         {
-            new CategoriaComida{CategoriaIdComida = 1, Nombre = "Hamburguesa"},
-            new CategoriaComida{CategoriaIdComida = 2, Nombre = "Bebida"},
-            new CategoriaComida{CategoriaIdComida = 3, Nombre = "Complemento"},
-            new CategoriaComida{CategoriaIdComida = 4, Nombre = "Postre"}
+            new CategoriaComida{Id = 1, Etiqueta = "Hamburguesa"},
+            new CategoriaComida{Id = 2, Etiqueta = "Bebida"},
+            new CategoriaComida{Id = 3, Etiqueta = "Complemento"},
+            new CategoriaComida{Id = 4, Etiqueta = "Postre"}
         };
     }
 }

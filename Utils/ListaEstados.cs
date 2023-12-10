@@ -6,8 +6,8 @@ namespace api_restaurante_hamburguesas.Utils
     {
         public List<Estado> estados = new List<Estado>()
         {
-            new Estado { EstadoUsuarioId = 1, Nombre = "Habililtado" },
-            new Estado { EstadoUsuarioId = 2, Nombre = "Deshabilitado" },
+            new Estado { Id = 1, Etiqueta = "Habililtado" },
+            new Estado { Id = 2, Etiqueta = "Deshabilitado" },
         };
     }
 }

@@ -34,6 +34,21 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Orden
+        [HttpGet("ObtenerNuevaOrden/{idCliente}")]
+        public async Task<ActionResult<int>>
+            ObtenerNuevaOrden(int idCliente)
+        {
+            try
+            {
+                return await _ordenMethods.ObtenerNuevaOrden(idCliente);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Orden
         [HttpGet("ObtenerOrdenes")]
         public async Task<ActionResult<Orden[]>>
             ObtenerOrdenes()

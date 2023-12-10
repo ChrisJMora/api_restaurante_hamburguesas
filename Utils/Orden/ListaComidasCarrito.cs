@@ -11,34 +11,34 @@ namespace api_restaurante_hamburguesas.Utils.Orden
             // [Hamburguesa Clásica, Papas Fritas Pequeñas, Coca Cola (500ml), Helado de Vainilla]
             new ComidaCarrito()
             {
-                ProductoCarritoId = 4,  // PrimaryKey
-                ComboCarritoId = 1,     // ForeignKey: ComboCarrito [1]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 1,           // Comida: Hamburguesa Clásica
+                Id = 4,  // PrimaryKey
+                IdComboCarrito = 1,     // ForeignKey: ComboCarrito [1]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 2,           // Comida: Hamburguesa Clásica
                 Cantidad = 3,           // Cantidad: 3
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 5,  // PrimaryKey
-                ComboCarritoId = 1,     // ForeignKey: ComboCarrito [1]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 5,           // Comida: Papas Fritas Pequeñas
+                Id = 5,  // PrimaryKey
+                IdComboCarrito = 1,     // ForeignKey: ComboCarrito [1]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 5,           // Comida: Papas Fritas Pequeñas
                 Cantidad = 5,           // Cantidad: 5
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 6,  // PrimaryKey
-                ComboCarritoId = 1,     // ForeignKey: ComboCarrito [1]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 6,           // Comida: Coca Cola (500 ml)
+                Id = 6,  // PrimaryKey
+                IdComboCarrito = 1,     // ForeignKey: ComboCarrito [1]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 6,           // Comida: Coca Cola (500 ml)
                 Cantidad = 5,           // Cantidad: 5
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 7,  // PrimaryKey
-                ComboCarritoId = 1,     // ForeignKey: ComboCarrito [1]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 7,           // Comida: Helado de Vainilla
+                Id = 7,  // PrimaryKey
+                IdComboCarrito = 1,     // ForeignKey: ComboCarrito [1]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 7,           // Comida: Helado de Vainilla
                 Cantidad = 2,           // Cantidad: 2
             },
 
@@ -46,34 +46,34 @@ namespace api_restaurante_hamburguesas.Utils.Orden
             // [Hamburguesa Clásica, Papas Fritas Grandes, Coca Cola (500ml), Helado de Chocolate]
             new ComidaCarrito()
             {
-                ProductoCarritoId = 8,  // PrimaryKey
-                ComboCarritoId = 2,     // ForeignKey: ComboCarrito [5]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 1,           // Comida: Hamburguesa Clásica
+                Id = 8,  // PrimaryKey
+                IdComboCarrito = 2,     // ForeignKey: ComboCarrito [5]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 1,           // Comida: Hamburguesa Clásica
                 Cantidad = 2,           // Cantidad: 2
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 9,  // PrimaryKey
-                ComboCarritoId = 2,     // ForeignKey: ComboCarrito [5]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 4,           // Comida: Papas Fritas Grandes
+                Id = 9,  // PrimaryKey
+                IdComboCarrito = 2,     // ForeignKey: ComboCarrito [5]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 4,           // Comida: Papas Fritas Grandes
                 Cantidad = 3,           // Cantidad: 3
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 10,  // PrimaryKey
-                ComboCarritoId = 2,     // ForeignKey: ComboCarrito [5]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 6,           // Comida: Coca Cola (500ml)
+                Id = 10,  // PrimaryKey
+                IdComboCarrito = 2,     // ForeignKey: ComboCarrito [5]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 6,           // Comida: Coca Cola (500ml)
                 Cantidad = 3,           // Cantidad: 3
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 11,  // PrimaryKey
-                ComboCarritoId = 2,     // ForeignKey: ComboCarrito [5]
-                OrdenId = 1,            // Orden: 1
-                ComidaId = 8,           // Comida: Helado de Chocolate
+                Id = 11,  // PrimaryKey
+                IdComboCarrito = 2,     // ForeignKey: ComboCarrito [5]
+                IdOrden = 1,            // Orden: 1
+                IdComida = 8,           // Comida: Helado de Chocolate
                 Cantidad = 1,           // Cantidad: 1
             },
 
@@ -81,34 +81,34 @@ namespace api_restaurante_hamburguesas.Utils.Orden
             // [Mini Hamburguesa Sencilla, Papas Fritas Pequeñas, Coca Cola (500ml), Helado de Vainilla]
             new ComidaCarrito()
             {
-                ProductoCarritoId = 13,  // PrimaryKey
-                ComboCarritoId = 3,     // ForeignKey: ComboCarrito [9]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 3,           // Comida: Mini Hamburguesa Sencilla
+                Id = 13,  // PrimaryKey
+                IdComboCarrito = 3,     // ForeignKey: ComboCarrito [9]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 3,           // Comida: Mini Hamburguesa Sencilla
                 Cantidad = 1,           // Cantidad: 1
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 14,  // PrimaryKey
-                ComboCarritoId = 3,     // ForeignKey: ComboCarrito [9]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 5,           // Comida: Papas Fritas Pequeñas
+                Id = 14,  // PrimaryKey
+                IdComboCarrito = 3,     // ForeignKey: ComboCarrito [9]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 5,           // Comida: Papas Fritas Pequeñas
                 Cantidad = 3,           // Cantidad: 3
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 15,  // PrimaryKey
-                ComboCarritoId = 3,     // ForeignKey: ComboCarrito [9]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 6,           // Comida: Coca Cola (500ml)
+                Id = 15,  // PrimaryKey
+                IdComboCarrito = 3,     // ForeignKey: ComboCarrito [9]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 6,           // Comida: Coca Cola (500ml)
                 Cantidad = 3,           // Cantidad: 3
             },
             new ComidaCarrito()
             {
-                ProductoCarritoId = 16,  // PrimaryKey
-                ComboCarritoId = 3,     // ForeignKey: ComboCarrito [9]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 7,           // Comida: Helado de Vainilla
+                Id = 16,  // PrimaryKey
+                IdComboCarrito = 3,     // ForeignKey: ComboCarrito [9]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 7,           // Comida: Helado de Vainilla
                 Cantidad = 3,           // Cantidad: 3
             },
 
@@ -116,19 +116,19 @@ namespace api_restaurante_hamburguesas.Utils.Orden
             // HAMBURGUESA DOBLE | ORDEN: 2
             new ComidaCarrito()
             {
-                ProductoCarritoId = 17, // PrimaryKey
-                ComboCarritoId = null,  // ForeignKey: ComboCarrito [null]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 2,           // Comida: Hamburguesa Doble
+                Id = 17, // PrimaryKey
+                IdComboCarrito = null,  // ForeignKey: ComboCarrito [null]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 2,           // Comida: Hamburguesa Doble
                 Cantidad = 4,           // Cantidad: 4
             },
             // COCA COLA (500ml) | ORDEN: 2
             new ComidaCarrito()
             {
-                ProductoCarritoId = 18, // PrimaryKey
-                ComboCarritoId = null,  // ForeignKey: ComboCarrito [null]
-                OrdenId = 2,            // Orden: 2
-                ComidaId = 6,           // Comida: Coca Cola (500ml)
+                Id = 18, // PrimaryKey
+                IdComboCarrito = null,  // ForeignKey: ComboCarrito [null]
+                IdOrden = 2,            // Orden: 2
+                IdComida = 6,           // Comida: Coca Cola (500ml)
                 Cantidad = 2,           // Cantidad: 2
             }
         };

@@ -6,9 +6,9 @@ namespace api_restaurante_hamburguesas.Utils.Productos.Catalogos
     {
         public List<CategoriaCombo> categoriasCombo = new List<CategoriaCombo>()
         {
-            new CategoriaCombo() { CategoriaIdCombo = 1, Nombre = "ComboCarrito Familiar"},
-            new CategoriaCombo() { CategoriaIdCombo = 2, Nombre = "ComboCarrito Individual"},
-            new CategoriaCombo() { CategoriaIdCombo = 3, Nombre = "ComboCarrito Infantil"}
+            new CategoriaCombo() { Id = 1, Etiqueta = "ComboCarrito Familiar"},
+            new CategoriaCombo() { Id = 2, Etiqueta = "ComboCarrito Individual"},
+            new CategoriaCombo() { Id = 3, Etiqueta = "ComboCarrito Infantil"}
         };
     }
 }

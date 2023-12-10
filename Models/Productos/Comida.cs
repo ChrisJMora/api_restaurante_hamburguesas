@@ -9,26 +9,20 @@ namespace api_restaurante_hamburguesas.Models.Productos
 {
     public class Comida : Producto
     {
-        [Column("precio_comida")]
+        [Column("precio")]
         [Required]
-        public double Precio { get; set; }
-
-        [Column("id_categoria_comida")]
-        public int CategoriaIdComida { get; set; }
-
+        public required double Precio { get; set; }
+        [Column("idCategoriaComida")]
+        public required int IdCategoriaComida { get; set; }
+        [Column("idEstadoComida")]
+        [Required]
+        public required int IdEstadoComida { get; set; }
         [JsonIgnore]
         public CategoriaComida? CategoriaComida { get; set; }
-
         [JsonIgnore]
-        public ComboComida? ComboComida { get; set; }
-
+        public ComidaCombo? ComboComida { get; set; }
         [JsonIgnore]
         public ComidaCarrito? ComidaCarrito { get; set; }
-
-        [Column("estado_comida")]
-        [Required]
-        public required int EstadoComidaId { get; set; }
-
         [JsonIgnore]
         public Estado? EstadoComida { get; set; }
     }

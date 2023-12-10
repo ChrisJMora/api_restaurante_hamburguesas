@@ -6,14 +6,14 @@ namespace api_restaurante_hamburguesas.Models.Productos
 {
     public class Producto
     {
-        [Column("id_producto")]
+        [Column("idProducto", Order = 1)]
         [Required]
         [Key]
-        public int ProductoId { get; set; }
-        [Column("nombre_producto")]
+        public int Id { get; set; }
+        [Column("nombreProducto", Order = 2)]
         [Required]
         public required string Nombre {  get; set; }
-        [Column("descripcion_producto")]
+        [Column("descripcionProducto", Order = 3)]
         [Required]
         public required string Descripcion {  get; set; }
 

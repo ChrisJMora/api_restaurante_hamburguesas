@@ -9,19 +9,16 @@ namespace api_restaurante_hamburguesas.Models.Orden
 {
     public class ProductoCarrito
     {
-        [Column("id_carrito")]
+        [Column("idCarrito", Order = 1)]
         [Key]
         [Required]
-        public int ProductoCarritoId { get; set; }
-
-        [Column("id_orden_carrito")]
+        public int Id { get; set; }
+        [Column("idOrdenCarrito", Order = 2)]
         [Required]
-        public int OrdenId { get; set; }
-
-        [Column("id_cantidad_carrito")]
+        public required int IdOrden { get; set; }
+        [Column("cantidad", Order = 3)]
         [Required]
-        public int Cantidad { get; set; }
-
+        public required int Cantidad { get; set; }
         [JsonIgnore]
         public Orden? Orden { get; set; }
     }

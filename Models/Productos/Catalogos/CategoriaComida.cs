@@ -6,16 +6,13 @@ namespace api_restaurante_hamburguesas.Models.Productos.Catalogos
 {
     public class CategoriaComida
     {
-        [Column("id_categoria_comida")]
+        [Column("idCategoriaComida", Order = 1)]
         [Key]
-        public int CategoriaIdComida { get; set; }
-
-        [Column("nombre_categoria_comida")]
+        public int Id { get; set; }
+        [Column("etiquetaCategoriaComida", Order = 2)]
         [Required]
-        public string? Nombre { get; set; }
-
+        public required string Etiqueta { get; set; }
         [JsonIgnore]
         public Comida? Comida { get; set; }
-
     }
 }

@@ -8,40 +8,31 @@ namespace api_restaurante_hamburguesas.Models.Persona
 {
     public class Cliente
     {
-        [Column("id_cliente", Order = 1)]
+        [Column("idCliente", Order = 1)]
         [Key]
-        public int ClienteId { get; set; }
-
-        [Column("nombre_cliente", Order = 2)]
+        public int Id { get; set; }
+        [Column("nombreCliente", Order = 2)]
         [Required]
-        public string? Nombre { get; set; }
-
-        [Column("apellido_cliente", Order = 3)]
+        public required string Nombre { get; set; }
+        [Column("apellido", Order = 3)]
         [Required]
-        public string? Apellido { get; set; }
-
-        [Column("fechaN_cliente", Order = 4)]
+        public required string Apellido { get; set; }
+        [Column("fechaNcliente", Order = 4)]
         [Required]
-        public DateTime? FechaNacimiento { get; set; }
-
-        [Column("id_genero_cliente", Order = 5)]
+        public required DateTime? FechaNacimiento { get; set; }
+        [Column("idGeneroCliente", Order = 5)]
         [Required]
-        public int GeneroId { get; set; }
-
-        [Column("telefono_cliente")]
+        public required int IdGenero { get; set; }
+        [Column("telefono", Order = 6)]
         [Required]
         public required string TelefonoCliente { get; set; }
-
-        [Column("mail_cliente")]
+        [Column("mail", Order = 7)]
         [Required]
         public required string MailCliente { get; set; }
-
         [JsonIgnore]
         public GeneroCliente? Genero { get; set; }
-
         [JsonIgnore]
         public Usuario? Usuario { get; set; }
-
         [JsonIgnore]
         public Orden.Orden? Orden { get; set; }
     }

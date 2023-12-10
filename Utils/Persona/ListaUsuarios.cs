@@ -8,33 +8,33 @@ namespace api_restaurante_hamburguesas.Utils.Persona
         {
             new Usuario()
             {
-                UsuarioId = 1,
-                TipoUsuarioId = 1,  // Administrador
-                NombreUsuario = "admin",
+                Id = 1,
+                IdTipoUsuario = 1,  // Administrador
+                Nombre = "admin",
                 FechaCreacion = DateTime.Now,
                 FechaAcceso = DateTime.Now,
-                EstadoUsuarioId = 1, // Habilitado
-                ClienteId = null,
+                IdEstadoUsuario = 1, // Habilitado
+                IdCliente = null,
             },
             new Usuario()
             {
-                UsuarioId = 2,
-                TipoUsuarioId = 2,  // Cliente
-                NombreUsuario = "chris2003",
+                Id = 2,
+                IdTipoUsuario = 2,  // Cliente
+                Nombre = "chris2003",
                 FechaCreacion = DateTime.Now,
                 FechaAcceso = DateTime.Now,
-                EstadoUsuarioId = 1, // Habilitado
-                ClienteId = 1,
+                IdEstadoUsuario = 1, // Habilitado
+                IdCliente = 1,
             },
             new Usuario()
             {
-                UsuarioId = 3,
-                TipoUsuarioId = 2,  // Cliente
-                NombreUsuario = "xavier2007",
+                Id = 3,
+                IdTipoUsuario = 2,  // Cliente
+                Nombre = "xavier2007",
                 FechaCreacion = DateTime.Now,
                 FechaAcceso = DateTime.Now,
-                EstadoUsuarioId = 1, // Habilitado
-                ClienteId = 2,
+                IdEstadoUsuario = 1, // Habilitado
+                IdCliente = 2,
             }
         };
 

@@ -75,23 +75,23 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             return categoriaCombo;
         }
 
-        public async Task<ComboComida[]>
+        public async Task<ComidaCombo[]>
             ObtenerComidasCombo(int idCombo)
         {
-            ComboComida[] comboComidas = await _context.ComboComida
+            ComidaCombo[] comboComidas = await _context.ComboComida
                 .Where(b => b.IdCombo == idCombo)
                 .ToArrayAsync();
-            if (comboComidas.Length <= 0)
+/*            if (comboComidas.Length <= 0)
                 throw new Exception($"""
                     No se encontraron comidas asociadas al combo con id: {idCombo}
-                    """);
+                    """);*/
             return comboComidas.ToArray();
         }
 
-        public async Task<ComboComida>
+        public async Task<ComidaCombo>
             ObtenerComidaCombo(int idCombo, int idComida)
         {
-            ComboComida? comboComida = await _context.ComboComida
+            ComidaCombo? comboComida = await _context.ComboComida
                 .Where(b => b.IdCombo == idCombo)
                 .Where(b => b.IdComida == idComida)
                 .FirstOrDefaultAsync();
@@ -107,7 +107,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             FiltrarComidas(int idCategoria)
         {
             return await _context.Comidas
-                    .Where(e => e.CategoriaIdComida == idCategoria)
+                    .Where(e => e.IdCategoriaComida == idCategoria)
                     .ToArrayAsync();
         }
 
@@ -115,7 +115,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             FiltrarCombos(int idCategoria)
         {
             return await _context.Combos
-                    .Where(e => e.CategoriaIdCombo == idCategoria)
+                    .Where(e => e.IdCategoriaCombo == idCategoria)
                     .ToArrayAsync();
         }
 
@@ -126,10 +126,10 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             Comida comida = new Comida
             {
                 Nombre = nombre,
-                EstadoComidaId = 1,
+                IdEstadoComida = 1,
                 Descripcion = descripcion,
                 Precio = precio,
-                CategoriaIdComida = idCategoria
+                IdCategoriaComida = idCategoria
             };
             await _context.Comidas.AddAsync(comida);
             await _context.SaveChangesAsync();
@@ -142,10 +142,10 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             Combo combo = new Combo
             {
                 Nombre = nombre,
-                EstadoComboId = 1,
+                IdEstadoCombo = 1,
                 Descripcion = descripcion,
                 Descuento = descuento,
-                CategoriaIdCombo = idCategoria
+                IdCategoriaCombo = idCategoria
             };
             await _context.Combos.AddAsync(combo);
             await _context.SaveChangesAsync();
@@ -155,7 +155,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             AgregarComidaCombo(int idCombo, int idComida, int cantidad)
         {
             if (cantidad < 0) { throw new Exception("Formato de la cantidad incorrecto"); }
-            ComboComida comboComida = new ComboComida()
+            ComidaCombo comboComida = new ComidaCombo()
             {
                 IdCombo = idCombo,
                 IdComida = idComida,
@@ -165,10 +165,11 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             await _context.SaveChangesAsync();
         }
 
+
         public async Task
             AgregarCategoriaComida(string nombre)
         {
-            CategoriaComida categoriaComida = new CategoriaComida { Nombre = nombre };
+            CategoriaComida categoriaComida = new CategoriaComida { Etiqueta = nombre };
             await _context.CategoriasComida.AddAsync(categoriaComida);
             await _context.SaveChangesAsync();
         }
@@ -176,7 +177,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
         public async Task
             AgregarCategoriaCombo(string nombre)
         {
-            CategoriaCombo categoriaCombo = new CategoriaCombo { Nombre = nombre };
+            CategoriaCombo categoriaCombo = new CategoriaCombo { Etiqueta = nombre };
             await _context.CategoriasCombo.AddAsync(categoriaCombo);
             await _context.SaveChangesAsync();
         }
@@ -189,7 +190,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             comida.Nombre = nombre;
             comida.Descripcion = descripcion;
             comida.Precio = precio;
-            comida.CategoriaIdComida = idCategoria;
+            comida.IdCategoriaComida = idCategoria;
             await _context.SaveChangesAsync();
         }
 
@@ -201,7 +202,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             combo.Nombre = nombre;
             combo.Descripcion = descripcion;
             combo.Descuento = descuento;
-            combo.CategoriaIdCombo = idCategoria;
+            combo.IdCategoriaCombo = idCategoria;
             await _context.SaveChangesAsync();
         }
 
@@ -209,7 +210,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarCategoriaComida(int idCategoriaComida, string nombre)
         {
             CategoriaComida categoriaComida = await ObtenerCategoriaComida(idCategoriaComida);
-            categoriaComida.Nombre = nombre;
+            categoriaComida.Etiqueta = nombre;
             await _context.SaveChangesAsync();
         }
 
@@ -217,7 +218,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarCategoriaCombo(int idCategoriaCombo, string nombre)
         {
             CategoriaCombo categoriaCombo = await ObtenerCategoriaCombo(idCategoriaCombo);
-            categoriaCombo.Nombre = nombre;
+            categoriaCombo.Etiqueta = nombre;
             await _context.SaveChangesAsync();
         }
 
@@ -225,7 +226,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarEstadoComida(int idComida, int idEstado)
         {
             Comida comida = await ObtenerComida(idComida);
-            comida.EstadoComidaId = idEstado;
+            comida.IdEstadoComida = idEstado;
             await _context.SaveChangesAsync();
         }
 
@@ -233,7 +234,7 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             ModificarEstadoCombo(int idCombo, int idEstado)
         {
             Combo combo = await ObtenerCombo(idCombo);
-            combo.EstadoComboId = idEstado;
+            combo.IdEstadoCombo = idEstado;
             await _context.SaveChangesAsync();
         }
 
@@ -273,22 +274,30 @@ namespace api_restaurante_hamburguesas.Auxiliaries.ApiMethods
             await _context.SaveChangesAsync();
         }
 
-        private async Task<bool>
+        public async Task
+            EliminarComidasCombo(int idCombo)
+        {
+            ComidaCombo[] comboComidas = await ObtenerComidasCombo(idCombo);
+            _context.ComboComida.RemoveRange(comboComidas);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool>
             ComboEliminable(int idCombo)
         {
             ComboCarrito? comboCarrito = await _context.Carrito
                 .Cast<ComboCarrito>()
-                .Where(b => b.ComboId == idCombo)
+                .Where(b => b.IdCombo == idCombo)
                 .FirstOrDefaultAsync();
             return comboCarrito == null;
         }
 
-        private async Task<bool>
+        public async Task<bool>
             ComidaEliminable(int idComida)
         {
             ComidaCarrito? comidaCarrito = await _context.Carrito
                 .Cast<ComidaCarrito>()
-                .Where(b => b.ComidaId == idComida)
+                .Where(b => b.IdComida == idComida)
                 .FirstOrDefaultAsync();
             return comidaCarrito == null;
         }

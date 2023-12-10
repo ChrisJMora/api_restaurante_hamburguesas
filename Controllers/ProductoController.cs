@@ -80,7 +80,7 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Producto
-        [HttpGet("ObtenerComidaCarrito/{idComida}")]
+        [HttpGet("ObtenerComida/{idComida}")]
         public async Task<ActionResult<Comida>>
             ObtenerComida(int idComida)
         {
@@ -141,7 +141,7 @@ namespace api_restaurante_hamburguesas.Controllers
 
         // GET: api/Producto
         [HttpGet("ObtenerComidasCombo/{idCombo}")]
-        public async Task<ActionResult<ComboComida[]>>
+        public async Task<ActionResult<ComidaCombo[]>>
             ObtenerComidasCombo(int idCombo)
         {
             try
@@ -170,13 +170,44 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Producto
-        [HttpGet("FiltrarCombos/{idCategoriaComvo}")]
+        [HttpGet("FiltrarCombos/{idCategoriaCombo}")]
         public async Task<ActionResult<Combo[]>>
             FiltrarCombos(int idCategoriaCombo)
         {
             try
             {
                 return Ok(await _productoMethods.FiltrarCombos(idCategoriaCombo));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        // GET: api/Producto
+        [HttpGet("ComboEliminable/{idCombo}")]
+        public async Task<ActionResult<bool>>
+            ComboEliminable(int idCombo)
+        {
+            try
+            {
+                return Ok(await _productoMethods.ComboEliminable(idCombo));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET: api/Producto
+        [HttpGet("ComidaEliminable/{idComida}")]
+        public async Task<ActionResult<bool>>
+            ComidaEliminable(int idComida)
+        {
+            try
+            {
+                return Ok(await _productoMethods.ComidaEliminable(idComida));
             }
             catch (Exception ex)
             {
@@ -281,13 +312,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // PUT: api/Producto
-        [HttpPut("ModificarCombo/{idCombo},{nombre},{descripcion},{descuento},{idCategoriaComida}")]
+        [HttpPut("ModificarCombo/{idCombo},{nombre},{descripcion},{descuento},{idCategoriaCombo}")]
         public async Task<ActionResult>
-            ModificarCombo(int idCombo, string nombre, string descripcion, double descuento, int idCategoria)
+            ModificarCombo(int idCombo, string nombre, string descripcion, double descuento, int idCategoriaCombo)
         {
             try
             {
-                await _productoMethods.ModificarCombo(idCombo, nombre, descripcion, descuento, idCategoria);
+                await _productoMethods.ModificarCombo(idCombo, nombre, descripcion, descuento, idCategoriaCombo);
                 return Ok("Combo modificado correctamente");
             }
             catch (Exception ex)
@@ -361,7 +392,7 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // DELETE: api/Producto
-        [HttpDelete("EliminarComidaCarrito/{idComida}")]
+        [HttpDelete("EliminarComida/{idComida}")]
         public async Task<ActionResult>
             EliminarComida(int idComida)
         {
@@ -377,7 +408,7 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // DELETE: api/Producto
-        [HttpDelete("EliminarComboCarrito/{idCombo}")]
+        [HttpDelete("EliminarCombo/{idCombo}")]
         public async Task<ActionResult>
             EliminarCombo(int idCombo)
         {
@@ -388,7 +419,7 @@ namespace api_restaurante_hamburguesas.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.InnerException);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -401,6 +432,22 @@ namespace api_restaurante_hamburguesas.Controllers
             {
                 await _productoMethods.EliminarCategoriaComida(idCategoriaComida);
                 return Ok("Categoria comida eliminada correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // DELETE: api/Producto
+        [HttpDelete("EliminarComidasCombo/{idCombo}")]
+        public async Task<ActionResult>
+            EliminarComidasCombo(int idCombo)
+        {
+            try
+            {
+                await _productoMethods.EliminarComidasCombo(idCombo);
+                return Ok("Comidas eliminadas correctamente");
             }
             catch (Exception ex)
             {
@@ -423,5 +470,6 @@ namespace api_restaurante_hamburguesas.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

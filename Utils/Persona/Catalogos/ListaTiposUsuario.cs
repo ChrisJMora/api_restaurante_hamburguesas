@@ -6,8 +6,8 @@ namespace api_restaurante_hamburguesas.Utils.Persona.Catalogos
     {
         public List<TipoUsuario> tiposUsuario = new List<TipoUsuario>()
         {
-            new TipoUsuario() { TipoUsuarioId = 1, Nombre = "Administrador" },
-            new TipoUsuario() { TipoUsuarioId = 2, Nombre = "Cliente" }
+            new TipoUsuario() { Id = 1, Etiqueta = "Administrador" },
+            new TipoUsuario() { Id = 2, Etiqueta = "Cliente" }
         };
     }
 }

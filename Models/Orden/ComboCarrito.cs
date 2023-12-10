@@ -7,20 +7,19 @@ namespace api_restaurante_hamburguesas.Models.Orden
 {
     public class ComboCarrito : ProductoCarrito
     {
-        [Column("id_combo_combo_carrito")]
+        [Column("idCombo")]
         [Required]
-        public int ComboId { get; set; }
-
+        public int IdCombo { get; set; }
         [JsonIgnore]
         public Combo? Combo { get; set; }
-
+        [JsonIgnore]
+        public ComidaCarrito? ComidaCarrito { get; set; }
         public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             ComboCarrito combo = (ComboCarrito)obj;
-            return ComboId == combo.ComboId;
+            return IdCombo == combo.IdCombo;
         }
-
         public override int GetHashCode()
         {
             throw new NotImplementedException();

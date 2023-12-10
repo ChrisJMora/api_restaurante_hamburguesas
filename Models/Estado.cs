@@ -8,19 +8,15 @@ namespace api_restaurante_hamburguesas.Models
 {
     public class Estado
     {
-        [Column("id_estado", Order = 1)]
+        [Column("idEstado", Order = 1)]
         [Key]
-        public int EstadoUsuarioId { get; set; }
-
-        [Column("nombre_estado", Order = 2)]
-        public string? Nombre { get; set; }
-
+        public int Id { get; set; }
+        [Column("etiquetaEstado", Order = 2)]
+        public required string Etiqueta { get; set; }
         [JsonIgnore]
         public Usuario? Usuario { get; set; }
-
         [JsonIgnore]
         public Comida? Comida { get; set; }
-
         [JsonIgnore]
         public Combo? Combo { get; set; }
     }

@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 // Add DbContext
 builder.Services.AddDbContext<ApplicationContext>(option =>
 {

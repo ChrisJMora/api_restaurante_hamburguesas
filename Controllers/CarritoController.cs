@@ -124,13 +124,13 @@ namespace api_restaurante_hamburguesas.Controllers
         }
 
         // GET: api/Carrito
-        [HttpGet("CalcularTotalOrden/{idOrden}")]
+        [HttpGet("CalcularTotalComidas/{idOrden}")]
         public async Task<ActionResult<double>>
-            CalcularTotalOrden(int idOrden)
+            CalcularTotalComidas(int idOrden)
         {
             try
             {
-                return Ok(await _carritoMethods.CalcularTotalOrden(idOrden));
+                return Ok(await _carritoMethods.CalcularTotalComidas(idOrden));
             }
             catch (Exception ex)
             {

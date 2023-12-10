@@ -6,14 +6,12 @@ namespace api_restaurante_hamburguesas.Models.Productos.Catalogos
 {
     public class CategoriaCombo
     {
-        [Column("id_categoria_combo")]
+        [Column("idCategoriaCombo", Order = 1)]
         [Key]
-        public int CategoriaIdCombo { get; set; }
-
-        [Column("nombre_categoria_combo")]
+        public int Id { get; set; }
+        [Column("etiquetaCategoriaCombo", Order = 2)]
         [Required]
-        public string? Nombre { get; set; }
-
+        public required string Etiqueta { get; set; }
         [JsonIgnore]
         public Combo? Combo { get; set; }
     }
